@@ -6,15 +6,7 @@ require('dotenv').config({ path: './config/config.env' });
 const port= process.env.PORT
 dbConnection();
 
-app.use(cors())
-const corsOptions ={
-   origin: ["https://medikartwebsite.vercel.app","http://localhost:5173"], 
-   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-   credentials:true,            //access-control-allow-credentials:true
-   optionSuccessStatus:200,
-}
-
-app.use(cors(corsOptions)) 
+app.use(cors()) 
 app.use((req,res,next)=>{
     res.header("Access-Control-Allow-Origin","*");// react app address
     res.header(
