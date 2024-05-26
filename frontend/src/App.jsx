@@ -22,11 +22,11 @@ function App() {
     <Router>
       <div>
         <Routes>
-          <Route exact path="/" element={<Home/>} />
-          <Route exact path="/login" element={<Login/>} />
-          <Route exact path="/createuser" element={<Signup/>} />
-          <Route exact path="/myorder" element={<MyOrder/>} />
-          <Route exact path="/support" element={<Support/>} />
+          <Route exact path="/" element={<Home/>} ></Route>
+          <Route exact path="/login" element={<Login/>}></Route>
+          <Route exact path="/createuser" element={<Signup/>}></Route>
+          <Route exact path="/myorder" element={<MyOrder/>} ></Route>
+          <Route exact path="/support" element={<Support/>}></Route>
         </Routes>
       </div>    
     </Router>
