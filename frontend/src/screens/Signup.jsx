@@ -63,6 +63,7 @@ const onChange = (e) => {
   <Link to="/login" className="btn btn-secondary m-3">Already a user</Link>
   </form>
 </div>
+<div style={{ height: '50px' }}></div>
 <Footer/>
     </>
   )
