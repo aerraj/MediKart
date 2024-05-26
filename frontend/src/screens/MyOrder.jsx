@@ -5,7 +5,7 @@ import Footer from './../components/Footer'
 export default function MyOrder () {
   const [orderData, setOrderData] = useState('')
   const fetchMyOrder = async () => {
-    await fetch('https://medi-kart.vercel.app/api/myOrderData', {
+    await fetch('http://localhost:5000/api/myOrderData', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

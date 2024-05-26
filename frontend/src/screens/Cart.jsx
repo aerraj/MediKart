@@ -42,7 +42,7 @@ export default function Cart() {
   var formattedDateTime = `${dayOfWeek} ${month} ${day} ${year}, ${time}`;
   const handleCheckOut = async () => {
     let userEmail = localStorage.getItem("userEmail");
-    let response = await fetch("https://medi-kart.vercel.app/api/orderData", {
+    let response = await fetch("http://localhost:5000//api/orderData", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
