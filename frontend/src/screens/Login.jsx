@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import Navbar from './../components/Navbar';
+import Footer from './../components/Footer';
 export default function Login () {
   const [credentials, setcredentials] = useState({
     email: '',
@@ -37,6 +39,7 @@ export default function Login () {
 
   return (
     <div>
+      <Navbar/>
       <div className='container border border-primary rounded mt-5 p-3'>
         <form onSubmit={handleSubmit}>
           <div className='mb-3'>
@@ -74,6 +77,8 @@ export default function Login () {
           </Link>
         </form>
       </div>
+      <div style={{ height: '250px' }}></div>
+      <Footer/>
     </div>
   )
 }

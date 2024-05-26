@@ -1,6 +1,8 @@
 // import React from 'react'
 import { useState } from 'react';
 import { Link,useNavigate } from 'react-router-dom';
+import Navbar from './../components/Navbar';
+import Footer from './../components/Footer';
 
 export default function Signup() {
 
@@ -37,6 +39,7 @@ const onChange = (e) => {
 
   return (
     <>
+    <Navbar/>
     <div className="container border border-primary rounded mt-5 p-3 ">
       <form onSubmit={handleSubmit}>
       <div className="mb-3">
@@ -60,6 +63,7 @@ const onChange = (e) => {
   <Link to="/login" className="btn btn-secondary m-3">Already a user</Link>
   </form>
 </div>
+<Footer/>
     </>
   )
 }
