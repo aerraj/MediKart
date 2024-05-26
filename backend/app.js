@@ -8,7 +8,8 @@ dbConnection();
 
 app.use(cors())
 const corsOptions ={
-   origin:'*', 
+   origin: ["https://medikartwebsite.vercel.app","http://localhost:5173"], 
+   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
    credentials:true,            //access-control-allow-credentials:true
    optionSuccessStatus:200,
 }
