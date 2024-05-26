@@ -3,6 +3,19 @@
 MediKart is a comprehensive MERN stack project designed to offer a seamless online shopping experience for healthcare products. This project features dedicated collections for healthcare items, users, order history, and includes a variety of user-friendly functionalities like add to cart, search bar, and checkout.
 
 👉 Live Demo: <a href='https://medikartwebsite.vercel.app/'>MediKart Demo</a> Sample id:{email:dg00461@gmail.com password:dg00461}
+## Preview Images
+### Home Page
+![image](https://github.com/aerraj/MediKart/assets/61013804/967f69c0-5a14-4fef-a560-13e8912bf0e3)
+### Cart View
+![image](https://github.com/aerraj/MediKart/assets/61013804/f2cff19a-cb26-496c-99a9-090116e329d4)
+### My Orders Page
+![image](https://github.com/aerraj/MediKart/assets/61013804/e6eabd1e-9ac3-46f6-8de3-9bd6e61b4884)
+
+### Support Page
+![image](https://github.com/aerraj/MediKart/assets/61013804/72e7362c-c28b-4997-b852-44d49ff3ec96)
+
+
+
 
 ## Table of Contents
 - [Features](#features)
