@@ -62,37 +62,43 @@ export default function Home() {
                     <span className="visually-hidden">Next</span>
                 </button>
             </div></div>
-            {(localStorage.getItem("authToken"))?
-            <div>
-             <div className='container'>
-                {
-                    medCat!=[]?medCat.map((data)=>{
-                        return (<div className='row mb-3'key={data}>
-                        <div key={data._id} className='fs-3 m-3'>{data.CategoryName}</div>
-                        <hr />
-                        {
-                            medItem!=[]?medItem.filter((item)=> (item.CategoryName===data.CategoryName)&&(item.name.toLowerCase().includes(search.toLocaleLowerCase()))) 
-                            .map((filterItems)=>{
-                                return(
-                                    <div key={filterItems._id} className='col-12 col-md-6 col-lg-3'>
-                                        <Card
-                                        medItem={filterItems}
-                                        options={filterItems.options[0]}
-                                    > </Card>
-                                    </div>
-                                )
-                            })
-            
-                            :<div>No Such Data Found</div>
-                        }
-                        </div>)
-                    }):<Card/>
-                }
-            </div>
-            </div>:<div>
-            <div className="text-center"style={{ backgroundColor: '#f0f0f0', padding: '20px', textAlign: 'center' }}>
-    <h1 className='d-flex' style={{ color: '#012970' }}>Sign Up Today to access and buy wide range of our Healthcare Products</h1>
-</div></div>}
+            {(localStorage.getItem("authToken")) ?
+    <div>
+        <div className='container'>
+            {
+              medCat &&   medCat.length > 0 ? medCat.map((data) => {
+                    return (
+                        <div className='row mb-3' key={data._id}>
+                            <div className='fs-3 m-3'>{data.CategoryName}</div>
+                            <hr />
+                            {
+                              medItem &&  medItem.length > 0 ? medItem.filter((item) => (item.CategoryName === data.CategoryName) && (item.name.toLowerCase().includes(search.toLowerCase())))
+                                    .map((filterItems) => {
+                                        return (
+                                            <div key={filterItems._id} className='col-12 col-md-6 col-lg-3'>
+                                                <Card
+                                                    medItem={filterItems}
+                                                    options={filterItems.options[0]}
+                                                > </Card>
+                                            </div>
+                                        )
+                                    })
+                                    : <div>No Such Data Found</div>
+                            }
+                        </div>
+                    )
+                })
+                    : <div>No Categories Found</div>
+            }
+        </div>
+    </div>
+    :
+    <div>
+        <div className="text-center" style={{ backgroundColor: '#f0f0f0', padding: '20px', textAlign: 'center' }}>
+            <h1 className='d-flex' style={{ color: '#012970' }}>Sign Up Today to access and buy a wide range of our Healthcare Products</h1>
+        </div>
+    </div>}
+
             <div><Footer></Footer></div>
         </div>
     )
