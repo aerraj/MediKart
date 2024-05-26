@@ -16,7 +16,7 @@ const corsOptions ={
 app.use(cors(corsOptions)) 
 
 app.get("/", (req, res)=>{
-  res.send("Hello")
+  res.send("Hello Backend is working fine. :)")
 })
 app.use(express.json())
 app.use('/api',require("./Routes/CreateUser"))
