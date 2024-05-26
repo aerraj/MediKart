@@ -113,7 +113,5 @@ MediKart/
 User authentication is implemented using JWT (JSON Web Tokens). Passwords are hashed using bcrypt for secure storage. Upon successful login, a token is generated and stored in the client's local storage to maintain the session.
 
 ## Data Handling
-The application segregates user-specific data to ensure personalized experiences. The product data is maintained on the back-end and is fetched from the front-end using API calls. Each user's order history and cart data are managed individually to provide a tailored shopping experience.
----
 
-Thank you for using MediKart! We hope you have a smooth and enjoyable shopping experience. If you have any questions or feedback, feel free to reach out.
+The application segregates user-specific data to ensure personalized experiences. The product data is maintained on the back-end and is fetched from the front-end using API calls. Each user's order history and cart data are managed individually to provide a tailored shopping experience.
