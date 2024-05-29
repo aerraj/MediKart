@@ -45,7 +45,7 @@ export default function MyOrder() {
         <div className='container'>
           <div className='row'>
             {orderData && orderData.orderData ? (
-              orderData.orderData.order_data.map((item, index) => (
+              orderData.orderData.order_data.slice(0).reverse().map((item, index) => (
                 <div key={index}>
                   {item.map((arrayData, innerIndex) => (
                     <div key={innerIndex}>
