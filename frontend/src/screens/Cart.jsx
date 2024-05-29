@@ -59,12 +59,10 @@ export default function Cart() {
     if (response.status === 200) {
       dispatch({ type: "DROP" })
     }
-  }
 
-  const handleOrder = () => {
-    handleCheckOut();
     notify();
   }
+
 
   let totalPrice = data.reduce((total, med) => total + med.price, 0).toFixed(2);
 
@@ -102,7 +100,7 @@ export default function Cart() {
         </table>
         <div><h1 className='fs-2'>Total Price: ₹{totalPrice}/-</h1></div>
         <div>
-          <button className='btn bg-success mt-5' onClick={handleOrder}>Check Out</button>
+          <button className='btn bg-success mt-5' onClick={handleCheckOut}>Check Out</button>
           <Toaster />
         </div>
       </div>
