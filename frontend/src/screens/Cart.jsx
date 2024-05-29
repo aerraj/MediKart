@@ -1,5 +1,6 @@
 import { useCart, useDispatchCart } from '../components/ContextReducer';
 import toast, { Toaster } from 'react-hot-toast';
+
 export default function Cart() {
   
   let data = useCart();
@@ -40,6 +41,7 @@ export default function Cart() {
   
   // Construct the final string
   var formattedDateTime = `${dayOfWeek} ${month} ${day} ${year}, ${time}`;
+
   const handleCheckOut = async () => {
     let userEmail = localStorage.getItem("userEmail");
     let response = await fetch("https://medi-kart.vercel.app/api/orderData", {
@@ -58,51 +60,52 @@ export default function Cart() {
       dispatch({ type: "DROP" })
     }
   }
-  const handleOrder=()=>{
+
+  const handleOrder = () => {
     handleCheckOut();
     notify();
   }
 
-  let totalPrice = data.reduce((total, med) => total + med.price, 0)
+  let totalPrice = data.reduce((total, med) => total + med.price, 0).toFixed(2);
+
   return (
     <div>
-
       {console.log(data)}
-      <div className='container m-auto mt-5 table-responsive  table-responsive-sm table-responsive-md' >
-        <table className='table table-hover '>
-          <thead className=' text-success fs-4'>
+      <div className='container m-auto mt-5 table-responsive table-responsive-sm table-responsive-md'>
+        <table className='table table-hover'>
+          <thead className='text-success fs-4'>
             <tr>
-              <th scope='col' >#</th>
-              <th scope='col' >Name</th>
-              <th scope='col' >Quantity</th>
-              <th scope='col' >Option</th>
-              <th scope='col' >Amount</th>
-              <th scope='col' ></th>
+              <th scope='col'>#</th>
+              <th scope='col'>Name</th>
+              <th scope='col'>Quantity</th>
+              <th scope='col'>Option</th>
+              <th scope='col'>Amount</th>
+              <th scope='col'></th>
             </tr>
           </thead>
           <tbody>
             {data.map((med, index) => (
               <tr key={index}>
-                <th scope='row' >{index + 1}</th>
-                <td >{med.name}</td>
+                <th scope='row'>{index + 1}</th>
+                <td>{med.name}</td>
                 <td>{med.qty}</td>
                 <td>{med.size}</td>
-                <td>₹{med.price}</td>
-                <td >
-                    <button type="button" className="btn p-0"><img src='trash.svg'  style={{height:"20px",objectFit:"fill"}} onClick={() => { dispatch({ type: "REMOVE", index: index }) }} />
-                    </button> </td></tr>
+                <td>₹{med.price.toFixed(2)}</td>
+                <td>
+                  <button type="button" className="btn p-0">
+                    <img src='trash.svg' style={{ height: "20px", objectFit: "fill" }} onClick={() => { dispatch({ type: "REMOVE", index: index }) }} />
+                  </button>
+                </td>
+              </tr>
             ))}
           </tbody>
         </table>
-        <div><h1 className='fs-2'>Total Price:₹{totalPrice}/-</h1></div>
+        <div><h1 className='fs-2'>Total Price: ₹{totalPrice}/-</h1></div>
         <div>
-          <button className='btn bg-success mt-5 ' onClick={handleOrder} > Check Out </button>
+          <button className='btn bg-success mt-5' onClick={handleOrder}>Check Out</button>
           <Toaster />
         </div>
       </div>
-
-
-
     </div>
   )
 }
