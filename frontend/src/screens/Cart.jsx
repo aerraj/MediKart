@@ -14,7 +14,7 @@ export default function Cart() {
     )
   }
 
-  const notify = () => toast.success('ORDER CONFIRMED!');
+  const notify = () => toast.success('Order Confirmed!Payment on Delivery');
   var currentDate = new Date();
 
   // Days of the week
@@ -100,8 +100,9 @@ export default function Cart() {
         </table>
         <div><h1 className='fs-2'>Total Price: ₹{totalPrice}/-</h1></div>
         <div>
-          <button className='btn bg-success mt-5' onClick={handleCheckOut}>Check Out</button>
+          <button className='btn bg-success m-5' onClick={handleCheckOut}>Cash On Delivery</button>
           <Toaster />
+          {/* <button className='btn bg-primary mt-5 m-5'>Pay Online</button> */}
         </div>
       </div>
     </div>
