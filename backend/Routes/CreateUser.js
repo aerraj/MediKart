@@ -5,29 +5,49 @@ const { body, validationResult } = require('express-validator')
 const bcrypt=require('bcryptjs')
 const jwt=require('jsonwebtoken')
 const jwtSecret="medikartisthebestpossibleappavailableforuse"
-router.post('/createUser',[ body('email').isEmail(),body('name').isLength({ min: 5 }), body('password','Incorrect Password').isLength({ min: 5 })
-],
-async(req,res)=>{
+const axios = require('axios');
+require('dotenv').config({ path: './config/config.env' });
+const RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET_KEY;
+
+router.post('/createUser', [
+    body('email').isEmail(),
+    body('name').isLength({ min: 5 }),
+    body('password', 'Incorrect Password').isLength({ min: 5 }),
+    body('recaptcha').not().isEmpty()
+], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-    const salt=await bcrypt.genSalt(10)
-    let secPassword= await bcrypt.hash(req.body.password,salt)
+
+    const { email, name, password, location, recaptcha } = req.body;
+
     try {
+        // Verify reCAPTCHA
+        const recaptchaResponse = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${RECAPTCHA_SECRET}&response=${recaptcha}`);
+        
+        if (!recaptchaResponse.data.success) {
+            return res.status(400).json({ message: 'Recaptcha verification failed!' });
+        }
+
+        // Hash the password
+        const salt = await bcrypt.genSalt(10);
+        const secPassword = await bcrypt.hash(password, salt);
+
+        // Create the user
         await User.create({
-            name:req.body.name,
-            password:secPassword,
-            email:req.body.email,
-            location:req.body.location
-        })
-        res.json({success:true})
-         }
-          catch (error) {
-       console.log(error)
-        res.json({success:false})
+            name,
+            password: secPassword,
+            email,
+            location
+        });
+
+        res.json({ success: true });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ success: false, error: 'Internal Server Error' });
     }
-})
+});
 router.post('/loginUser',[ body('email').isEmail(), body('password','Incorrect Password').isLength({ min: 5 })
 ],
 async(req,res)=>{
