@@ -98,12 +98,21 @@ export default function Cart() {
             ))}
           </tbody>
         </table>
+        <hr />
         <div><h1 className='fs-2'>Total Price: ₹{totalPrice}/-</h1></div>
-        <div>
-          <button className='btn bg-success m-5' onClick={handleCheckOut}>Cash On Delivery</button>
-          <Toaster />
-          {/* <button className='btn bg-primary mt-5 m-5'>Pay Online</button> */}
-        </div>
+        <hr />
+        <div className="payment-container">
+      <h3 className="payment-heading">Payment Options</h3>
+      <div className="payment-options">
+        <button className="btn btn-light" onClick={handleCheckOut}>
+          Cash On Delivery
+        </button>
+        <button className="btn btn-primary">
+          Pay Online Now 
+        </button>
+      </div>
+      <Toaster />
+    </div>
       </div>
     </div>
   )

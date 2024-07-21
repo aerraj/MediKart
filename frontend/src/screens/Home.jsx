@@ -104,7 +104,7 @@ export default function Home() {
                                     </div>
                                 ))
                             ) : (
-                                <div>No Categories Found</div>
+                                <div className='m-10'>Refresh to Load Categories and Products</div>
                             )}
                         </div>
                     ) : (
