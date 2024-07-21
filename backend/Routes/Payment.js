@@ -5,8 +5,6 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 router.post('/payment',async(req,res)=>{
     const {products}=req.body;
-    console.log(products);
-
     const lineItems = products.map((product)=>({
         price_data:{
             currency:"inr",

@@ -15,7 +15,6 @@ export default function Cart() {
       </div>
     )
   }
-
   const notify = () => toast.success('Order Placed! Pay on Delivery');
   const notifySuccess = () => toast.success('Order Confirmed! Pay Online Now');
   const notifyFailure = () => toast.error('Payment Failed!');
@@ -93,7 +92,6 @@ export default function Cart() {
 
    // payment integration with stripe
   const makePayment = async () => {
-    handleCheckOutOnline();
     const stripe = await loadStripe(STRIPE_PUBLIC_KEY);
     const body = {
       products:data
@@ -101,7 +99,8 @@ export default function Cart() {
   const headers = {
       "Content-Type":"application/json"
   }
-  const response = await fetch("https://medi-kart.vercel.app/api/payment",{
+  handleCheckOutOnline();
+  const response = await fetch("http://localhost:5000/api/payment",{
     method:"POST",
     headers:headers,
     body:JSON.stringify(body)

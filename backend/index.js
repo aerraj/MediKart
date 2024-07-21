@@ -19,6 +19,9 @@ app.use((req,res,next)=>{
 app.get("/", (req, res)=>{
   res.send("Hello Backend is working fine. :)")
 })
+app.get("/api/payment", (req, res)=>{
+  res.send("Hello Payment is working fine. :)")
+})
 app.use(express.json())
 //routes
 app.use('/api',require("./Routes/CreateUser"))
