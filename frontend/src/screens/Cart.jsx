@@ -1,5 +1,7 @@
 import { useCart, useDispatchCart } from '../components/ContextReducer';
 import toast, { Toaster } from 'react-hot-toast';
+import {loadStripe} from '@stripe/stripe-js';
+const STRIPE_PUBLIC_KEY = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
 
 export default function Cart() {
   
@@ -14,7 +16,9 @@ export default function Cart() {
     )
   }
 
-  const notify = () => toast.success('Order Confirmed!Payment on Delivery');
+  const notify = () => toast.success('Order Placed! Pay on Delivery');
+  const notifySuccess = () => toast.success('Order Confirmed! Pay Online Now');
+  const notifyFailure = () => toast.error('Payment Failed!');
   var currentDate = new Date();
 
   // Days of the week
@@ -63,8 +67,55 @@ export default function Cart() {
     notify();
   }
 
+  const handleCheckOutOnline = async () => {
+    let userEmail = localStorage.getItem("userEmail");
+    let response = await fetch("https://medi-kart.vercel.app/api/orderData", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        order_data: data,
+        email: userEmail,
+        order_date: formattedDateTime
+      })
+    });
+    console.log("JSON RESPONSE:::::", response.status)
+    if (response.status === 200) {
+      dispatch({ type: "DROP" })
+    }
+
+    notifySuccess();
+  }
+
 
   let totalPrice = data.reduce((total, med) => total + med.price, 0).toFixed(2);
+
+   // payment integration with stripe
+  const makePayment = async () => {
+    handleCheckOutOnline();
+    const stripe = await loadStripe(STRIPE_PUBLIC_KEY);
+    const body = {
+      products:data
+  }
+  const headers = {
+      "Content-Type":"application/json"
+  }
+  const response = await fetch("https://medi-kart.vercel.app/api/payment",{
+    method:"POST",
+    headers:headers,
+    body:JSON.stringify(body)
+});
+const session = await response.json();
+
+const result = stripe.redirectToCheckout({
+  sessionId:session.id
+});
+if(result.error){
+  notifyFailure();
+  console.log(result.error);
+}
+  };
 
   return (
     <div>
@@ -107,7 +158,7 @@ export default function Cart() {
         <button className="btn btn-light" onClick={handleCheckOut}>
           Cash On Delivery
         </button>
-        <button className="btn btn-primary">
+        <button className="btn btn-primary"onClick={makePayment}>
           Pay Online Now 
         </button>
       </div>

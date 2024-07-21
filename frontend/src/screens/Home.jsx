@@ -104,7 +104,7 @@ export default function Home() {
                                     </div>
                                 ))
                             ) : (
-                                <div className='m-10'>Refresh to Load Categories and Products</div>
+                                <div className='m-10'>If Products are Not Visible,Logout and Login Once Again</div>
                             )}
                         </div>
                     ) : (
