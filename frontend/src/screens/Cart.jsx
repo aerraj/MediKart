@@ -100,7 +100,7 @@ export default function Cart() {
       "Content-Type":"application/json"
   }
   handleCheckOutOnline();
-  const response = await fetch("http://localhost:5000/api/payment",{
+  const response = await fetch("https://medi-kart.vercel.app/api/payment",{
     method:"POST",
     headers:headers,
     body:JSON.stringify(body)
