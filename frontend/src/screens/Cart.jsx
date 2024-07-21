@@ -100,20 +100,28 @@ export default function Cart() {
       "Content-Type":"application/json"
   }
   handleCheckOutOnline();
-  const response = await fetch("https://medi-kart.vercel.app/api/payment",{
-    method:"POST",
-    headers:headers,
-    body:JSON.stringify(body)
-});
-const session = await response.json();
+ 
+  try {
+    const response = await fetch("https://medi-kart.vercel.app/api/payment", {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(body)
+    });
 
-const result = stripe.redirectToCheckout({
-  sessionId:session.id
-});
-if(result.error){
-  notifyFailure();
-  console.log(result.error);
-}
+    const session = await response.json();
+
+    const result = await stripe.redirectToCheckout({
+      sessionId: session.id
+    });
+
+    if (result.error) {
+      notifyFailure();
+      console.error(result.error.message);
+    }
+  } catch (error) {
+    notifyFailure();
+    console.error('Error:', error);
+  }
   };
 
   return (
