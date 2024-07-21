@@ -1,6 +1,6 @@
 # MediKart - A Full Stack Online HealthCare Shop
 
-MediKart is a comprehensive MERN stack project designed to offer a seamless online shopping experience for healthcare products. This project features dedicated collections for healthcare items, users, order history, and includes a variety of user-friendly functionalities like add to cart, search bar, and checkout.
+MediKart is a comprehensive MERN stack project designed to offer a seamless online shopping experience for healthcare products. This project features dedicated collections for healthcare items, users, order history, and includes a variety of user-friendly functionalities like add to cart, search bar, and checkout. Implemented payment using stripe.
 
 👉 Live Demo: <a href='https://medikartwebsite.vercel.app/'>MediKart Demo</a> Sample id:{email:dg00461@gmail.com password:dg00461}
 
@@ -41,11 +41,13 @@ MediKart is a comprehensive MERN stack project designed to offer a seamless onli
 
 ### Others
 - **Bcrypt.js**: Secure password storage.
+- **Google Recaptcha**:Enables web hosts to distinguish between human and automated access to websites.
 - **JWT**: JSON Web Tokens for session maintenance.
 - **Express Validator**: Middleware for validating request data.
 - **Context API**: State management for React.
 - **React Hooks**: `useEffect`,`useReducer` and `useState` for managing component lifecycle and state.
 - **React-hot-toast**: Notifications for user interactions.
+- **Stripe**: API to integrate payment processing.
 
 ## Installation
 1. Clone the repository:
@@ -108,9 +110,13 @@ MediKart/
 - **Order Routes**:
   - POST `/api/orderData`: Create a new order.
   - GET `/api/myorderData`: Fetch all orders for a specific user.
+- **Payment Routes**:
+  - POST `/api/payment`: Generate session ID to complete payment.
+   
 
 ## User Authentication
-User authentication is implemented using JWT (JSON Web Tokens). Passwords are hashed using bcrypt for secure storage. Upon successful login, a token is generated and stored in the client's local storage to maintain the session.
+
+User authentication is implemented using JWT (JSON Web Tokens). Passwords are hashed using bcrypt for secure storage and to check for bots recaptcha is utilized to boost security aginst brute force attacks. Upon successful login, a token is generated and stored in the client's local storage to maintain the session.
 
 ## Data Handling
 
@@ -120,9 +126,14 @@ The application segregates user-specific data to ensure personalized experiences
 ### Home Page
 ![image](https://github.com/aerraj/MediKart/assets/61013804/967f69c0-5a14-4fef-a560-13e8912bf0e3)
 ### Cart View
-![image](https://github.com/aerraj/MediKart/assets/61013804/f2cff19a-cb26-496c-99a9-090116e329d4)
+![image](https://github.com/user-attachments/assets/f788d345-6347-43e1-a21f-e460dbe125f6)
+
+### Payment Page
+![image](https://github.com/user-attachments/assets/84dbc1d3-3e00-4dcd-a509-8128a395d353)
+
 ### My Orders Page
 ![image](https://github.com/aerraj/MediKart/assets/61013804/e6eabd1e-9ac3-46f6-8de3-9bd6e61b4884)
 
 ### Support Page
-![image](https://github.com/aerraj/MediKart/assets/61013804/72e7362c-c28b-4997-b852-44d49ff3ec96)
+![image](https://github.com/user-attachments/assets/3519f37c-4723-40d3-b54a-32aa34f0b58a)
+
