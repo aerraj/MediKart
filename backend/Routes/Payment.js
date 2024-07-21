@@ -11,7 +11,7 @@ router.post('/payment',async(req,res)=>{
             product_data:{
                 name:product.name
             },
-            unit_amount:product.price * 100,
+            unit_amount:(product.price * 100)/product.qty,
         },
         quantity:product.qty
     }));
