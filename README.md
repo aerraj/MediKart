@@ -49,6 +49,14 @@ MediKart is a comprehensive MERN stack project designed to offer a seamless onli
 - **React-hot-toast**: Notifications for user interactions.
 - **Stripe**: API to integrate payment processing.
 
+## How Stripe Payment Works:
+![image](https://github.com/user-attachments/assets/4c2cbfbf-4d47-4073-9682-b60297259b7f)
+1. When customers are ready to complete their purchase, your application creates a new Checkout Session.
+2. The Checkout Session provides a URL that redirects customers to a Stripe-hosted payment page.
+3. Customers enter their payment details on the payment page and complete the transaction.
+4. After the transaction, a webhook fulfills the order using the checkout.session.completed event.
+
+
 ## Installation
 1. Clone the repository:
    ```bash
