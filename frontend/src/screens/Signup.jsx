@@ -1,80 +1,15 @@
-import { useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Navbar from './../components/Navbar';
-import Footer from './../components/Footer';
-import ReCAPTCHA from "react-google-recaptcha";
-
-const SITE_KEY = import.meta.env.VITE_SITE_KEY;
+import { useRef, useState } from 'react'
+import { GoogleLogin } from '@react-oauth/google'
+import { ArrowRight, Check, Eye, EyeOff } from 'lucide-react'
+import { Link, useNavigate } from 'react-router-dom'
+import ReCAPTCHA from 'react-google-recaptcha'
+import toast, { Toaster } from 'react-hot-toast'
+import Layout from '../components/Layout'
+import { API_URL, googleLogin, persistSession } from '../lib/api'
 
 export default function Signup() {
-  const [RecaptchaValue, setRecaptchaValue] = useState('');
-  const captchaRef = useRef();
-
-  const [credentials, setcredentials] = useState({ name: "", email: "", password: "", geolocation: "" });
-  let navigate = useNavigate();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const response = await fetch("https://medi-kart.vercel.app/api/createUser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: credentials.name,
-        password: credentials.password,
-        email: credentials.email,
-        location: credentials.geolocation,
-        recaptcha: RecaptchaValue
-      }),
-    });
-
-    const json = await response.json();
-    if (!json.success) {
-      console.log(json.error);
-      alert("Enter Valid Credentials");
-    } else {
-      navigate("/login");
-    }
-  };
-
-  const onChange = (e) => {
-    setcredentials({ ...credentials, [e.target.name]: e.target.value });
-  };
-
-  const handleCaptcha = (value) => { setRecaptchaValue(value); }
-
-  return (
-    <>
-      <Navbar />
-      <div className="container border border-primary rounded mt-5 p-3">
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="name" className="form-label">Name</label>
-            <input type="text" className="form-control" name='name' value={credentials.name} onChange={onChange} />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
-            <input type="email" className="form-control" name='email' value={credentials.email} id="exampleInputEmail1" aria-describedby="emailHelp" onChange={onChange} />
-            <div id="emailHelp" className="form-text">We&apos;ll never share your email with anyone else.</div>
-          </div>
-          <div className="mb-3">
-            <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-            <input type="password" className="form-control" name='password' value={credentials.password} id="exampleInputPassword1" onChange={onChange} />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="exampleInputPassword1" className="form-label">Address</label>
-            <input type="text" className="form-control" name="geolocation" value={credentials.geolocation} onChange={onChange} id="exampleInputPassword1" />
-          </div>
-          <div className="mb-3 mt-2">
-            <ReCAPTCHA sitekey={SITE_KEY} onChange={handleCaptcha} ref={captchaRef} />
-          </div>
-          <button type="submit" className="btn btn-primary m-3">SignUp</button>
-          <Link to="/login" className="btn btn-secondary m-3">Already a user</Link>
-        </form>
-      </div>
-      <div style={{ height: '50px' }}></div>
-      <Footer />
-    </>
-  )
+  const [form, setForm] = useState({ name: '', email: '', password: '', geolocation: '' }); const [captcha, setCaptcha] = useState(''); const [show, setShow] = useState(false); const [busy, setBusy] = useState(false); const captchaRef = useRef(); const navigate = useNavigate(); const googleEnabled = Boolean(import.meta.env.VITE_GOOGLE_CLIENT_ID)
+  const completeGoogle = async ({ credential }) => { try { const data = await googleLogin(credential); persistSession(data); navigate('/') } catch (error) { toast.error(error.message) } }
+  const submit = async (event) => { event.preventDefault(); setBusy(true); try { const response = await fetch(`${API_URL}/createUser`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: form.name, email: form.email, password: form.password, location: form.geolocation, recaptcha: captcha }) }); const data = await response.json(); if (!response.ok || !data.success) throw new Error(data.error || 'Please check your details'); toast.success('Account created'); navigate('/login') } catch (error) { toast.error(error.message) } finally { setBusy(false) } }
+  return <Layout className="auth-page"><Toaster position="bottom-center" /><section className="auth-layout"><div className="auth-story signup-story"><span className="eyebrow">Join MediKart</span><h1>Build a better<br />everyday routine.</h1><p>One thoughtful account for wellness essentials, repeat orders, and dependable care support.</p><ul><li><Check /> Browse the complete catalog</li><li><Check /> Save time on every checkout</li><li><Check /> Keep order history together</li></ul><div className="auth-quote">Simple tools for the health routines that matter.</div></div><div className="auth-card signup-card"><div><span className="eyebrow">Create an account</span><h2>Let’s get started</h2><p>Already a member? <Link to="/login">Sign in</Link></p></div>{googleEnabled ? <GoogleLogin onSuccess={completeGoogle} onError={() => toast.error('Google sign-up was cancelled')} width="360" shape="pill" text="signup_with" /> : <div className="google-config-note">Add VITE_GOOGLE_CLIENT_ID to enable Google sign-up.</div>}<div className="auth-divider"><span>or use your email</span></div><form onSubmit={submit}><div className="form-row"><label>Full name<input required minLength="2" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Your name" /></label><label>Delivery city<input required value={form.geolocation} onChange={(e) => setForm({ ...form, geolocation: e.target.value })} placeholder="Delhi" /></label></div><label>Email address<input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" /></label><label>Password<div className="password-field"><input type={show ? 'text' : 'password'} minLength="8" required value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="At least 8 characters" /><button type="button" onClick={() => setShow(!show)}>{show ? <EyeOff /> : <Eye />}</button></div></label>{import.meta.env.VITE_SITE_KEY && <ReCAPTCHA sitekey={import.meta.env.VITE_SITE_KEY} ref={captchaRef} onChange={setCaptcha} />}<button className="auth-submit" disabled={busy || (import.meta.env.VITE_SITE_KEY && !captcha)}>{busy ? 'Creating account…' : <>Create my account <ArrowRight /></>}</button></form><small className="legal-copy">By continuing, you agree to MediKart’s terms and privacy policy.</small></div></section></Layout>
 }

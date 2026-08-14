@@ -1,37 +1,37 @@
 import './App.css'
-import Home from './screens/Home';
-import Login from './screens/Login';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route
-} from "react-router-dom";
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import '../node_modules/bootstrap/dist/js/bootstrap.bundle';
-import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
-import Signup from './screens/Signup.jsx';
-import { CartProvider } from './components/ContextReducer';
-import MyOrder from './screens/MyOrder';
-import Support from './screens/Support';
+import { GoogleOAuthProvider } from '@react-oauth/google'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { CartProvider } from './components/ContextReducer'
+import Home from './screens/Home'
+import Login from './screens/Login'
+import Signup from './screens/Signup'
+import MyOrder from './screens/MyOrder'
+import Support from './screens/Support'
+import Catalog from './screens/Catalog'
+import ProductDetails from './screens/ProductDetails'
 
-function App() {
-
-
+function AppRoutes() {
   return (
     <CartProvider>
-    <Router>
-      <div>
+      <BrowserRouter>
         <Routes>
-          <Route exact path="/" element={<Home/>} ></Route>
-          <Route exact path="/login" element={<Login/>}></Route>
-          <Route exact path="/createuser" element={<Signup/>}></Route>
-          <Route exact path="/myorder" element={<MyOrder/>} ></Route>
-          <Route exact path="/support" element={<Support/>}></Route>
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<Catalog />} />
+          <Route path="/products/:productId" element={<ProductDetails />} />
+          <Route path="/category/:category" element={<Catalog />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/createuser" element={<Signup />} />
+          <Route path="/myorder" element={<MyOrder />} />
+          <Route path="/support" element={<Support />} />
         </Routes>
-      </div>    
-    </Router>
+      </BrowserRouter>
     </CartProvider>
   )
 }
 
-export default App
+export default function App() {
+  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
+  return clientId ? (
+    <GoogleOAuthProvider clientId={clientId}><AppRoutes /></GoogleOAuthProvider>
+  ) : <AppRoutes />
+}

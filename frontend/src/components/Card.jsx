@@ -1,84 +1,36 @@
-import PropTypes from 'prop-types';
-import  { useState} from 'react';
-import toast, { Toaster } from 'react-hot-toast';
-import { useCart,useDispatchCart } from './ContextReducer';
+import PropTypes from 'prop-types'
+import { ArrowUpRight, Plus, ShieldCheck, Star } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import toast from 'react-hot-toast'
+import { useDispatchCart } from './ContextReducer'
 
-export default function Card(props) {
-    
-  let dispatch=useDispatchCart();
-  let data=useCart();
+export default function Card({ medItem }) {
+  const dispatch = useDispatchCart()
+  const options = medItem.options?.[0] || { Standard: 0 }
+  const size = Object.keys(options)[0]
+  const price = Number(options[size])
+  const id = medItem._id || medItem.id || medItem.name
 
-  const notify = () => toast.success('Item is added to cart!');
-
-    let options =props.options;
-    let priceOptions=Object.keys(options);
-    let medItem = props.medItem;
-
-    
-    const [qty, setQty] = useState(1);
-    const [size, setSize] = useState(priceOptions[0]);
-
-    const handleAddToCart =async () => {
-      let med = []
-      for (const item of data) {
-        if (item.id === medItem._id) {
-          med = item;
-  
-          break;
-        }
-      }
-      if (med != []) {
-        if (med.size === size) {
-          await dispatch({ type: "UPDATE", id: medItem._id, price: finalPrice, qty: qty })
-          return
-        }
-        else if(med.size!==size){
-      await dispatch({type:"ADD",id:medItem._id,name:medItem.name, price:finalPrice,qty: qty,size: size,});
-      return
-        }
-        return
-    }
-
-    await dispatch({type:"ADD",id:medItem._id,name:medItem.name, price:finalPrice,qty: qty,size: size,});
+  const add = () => {
+    dispatch({ type: 'ADD', id, name: medItem.name, image: medItem.img, price, unitPrice: price, qty: 1, size })
+    toast.success(`${medItem.name} added to your cart`)
   }
-    let finalPrice = Math.round((qty * Number(options[size])) * 100) / 100;
-    const handleClick=()=>{notify();handleAddToCart();}
+
   return (
-    <div>
-          <div className="card mt-3" style={{ "width": "19rem", "maxHeight": "400px" }}>
-              <img className="card-img-top img-fluid" src={medItem.img} alt="Card image cap" style={{height:"160px",objectFit:"fill"}} />
-              <div className="card-body">
-                  <h5 className="card-title">{medItem.name}</h5>
-                  <div className="container w-100" >
-                      <select className="m-2 h-100 bg-primary text-white rounded" onChange={(e) => setQty(e.target.value)}>
-                          {
-                              Array.from(Array(6), (e, i) => {
-                                  return <option key={i + 1} value={i + 1}>{i + 1}</option>
-                              })
-                          }
-                      </select>
-                      <select className="m-2 h-100 bg-primary text-white rounded" onChange={(e) => setSize(e.target.value)}>
-                         {priceOptions.map((data)=>{
-                                return <option key={data} value={data}>{data}</option>
-                         })}
-                      </select>
-                      <div className="d-inline h-100 fs-5">₹{finalPrice}/-</div>
-                  </div>
-                  <hr />
-            <button
-              className={`btn btn-primary justify-center ms-5`}
-              onClick={handleClick}
-            >
-             + Add to Cart
-            </button>
-            <Toaster/>
-              </div>
-          </div>
-    </div>
+    <article className="product-card">
+      <Link className="product-image" to={`/products/${encodeURIComponent(id)}`} state={{ product: medItem }}>
+        <span className="product-chip"><ShieldCheck size={13} /> Verified</span>
+        <img src={medItem.img} alt={medItem.name} loading="lazy" />
+        <span className="open-product"><ArrowUpRight size={18} /></span>
+      </Link>
+      <div className="product-meta">
+        <p>{medItem.CategoryName || 'Everyday health'}</p>
+        <h3><Link to={`/products/${encodeURIComponent(id)}`} state={{ product: medItem }}>{medItem.name}</Link></h3>
+        <div className="product-rating"><Star size={14} fill="currentColor" /> 4.8 <span>• 120+ bought</span></div>
+        <div className="product-buy"><div><strong>₹{price.toFixed(2)}</strong><small>{size}</small></div><button onClick={add} aria-label={`Add ${medItem.name} to cart`}><Plus size={19} /></button></div>
+      </div>
+    </article>
   )
 }
 
-Card.propTypes = {
-    medItem: PropTypes.object.isRequired,
-    options:PropTypes.object.isRequired
-}
+Card.propTypes = { medItem: PropTypes.object.isRequired }

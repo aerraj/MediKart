@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useReducer } from "react";
 import PropTypes from 'prop-types';
 
@@ -10,12 +11,13 @@ const ADD_ITEM = "ADD";
 const REMOVE_ITEM = "REMOVE";
 const UPDATE_ITEM = "UPDATE";
 const DROP_CART = "DROP";
+const SET_QUANTITY = "SET_QTY";
 
 // Define the reducer function
 const reducer = (state, action) => {
     switch (action.type) {
         case ADD_ITEM:
-            return [...state, { id: action.id, name: action.name, price: action.price, qty: action.qty, size: action.size }];
+            return [...state, { id: action.id, name: action.name, image: action.image, price: action.price, unitPrice: action.unitPrice || action.price / action.qty, qty: action.qty, size: action.size }];
         
         case REMOVE_ITEM:
             return state.filter((_, index) => index !== action.index);
@@ -29,6 +31,9 @@ const reducer = (state, action) => {
         
         case DROP_CART:
             return [];
+
+        case SET_QUANTITY:
+            return state.map((item, index) => index === action.index ? { ...item, qty: action.qty, price: item.unitPrice * action.qty } : item);
         
         default:
             console.error(`Unknown action type: ${action.type}`);

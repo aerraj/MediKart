@@ -1,64 +1,59 @@
-import { Link,useNavigate } from "react-router-dom"
-import { useState } from "react";
-import Badge from "react-bootstrap/Badge";
-import Modal from "../Modal";
-import Cart from "../screens/Cart";
-import { useCart } from "./ContextReducer";
+import { useState } from 'react'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Menu, Search, ShoppingBag, UserRound, X } from 'lucide-react'
+import { useCart } from './ContextReducer'
+import Modal from '../Modal'
+import Cart from '../screens/Cart'
+
 export default function Navbar() {
-    let data=useCart();
+  const cart = useCart()
+  const navigate = useNavigate()
+  const [cartOpen, setCartOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const isAuthenticated = Boolean(localStorage.getItem('authToken'))
+  const user = JSON.parse(localStorage.getItem('user') || 'null')
 
-    const [cartView,setCartView] = useState(false);
-    const navigate=useNavigate();
-    const handleLogOut=()=>{
-        localStorage.removeItem("authToken");
-        navigate("/login");
-    }
+  const logout = () => {
+    ['authToken', 'userEmail', 'user'].forEach((key) => localStorage.removeItem(key))
+    navigate('/')
+  }
+
   return (
-    <div>
-          <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-              <Link className="navbar-brand fs-1 font-weight-bold company mt-0 mb-0 m-4 glow-on-hover" to="/"> MediKart</Link>
-              <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-              <div className="collapse navbar-collapse" id="navbarNav">
-                  <ul className="navbar-nav me-auto mb-2">
-                      <li className="nav-item">
-                          <Link className="nav-link active fs-5 glow-on-hover" to="/">Home</Link>
-                      </li>
-
-                 
-                 {(localStorage.getItem("authToken"))? <li className="nav-item">
-                          <Link className="nav-link active fs-5 glow-on-hover" to="/myorder">My-Orders</Link>
-                      </li>:""}
-                      <li className="nav-item">
-                          <Link className="nav-link active fs-5 glow-on-hover" to="/support">Support</Link>
-                      </li>
-                     
-                  </ul>
-                  {(!localStorage.getItem("authToken"))?
-                  <div className="d-flex" >
-                          <Link className="nav-link fs-5 me-3 text-light glow-on-hover newUser"  to="/login">Login</Link>
-                          <Link  className="nav-link fs-5 me-3 text-light" >or</Link>
-                          <Link className="nav-link fs-5 me-3 glow-on-hover newUser" to="/createuser">SignUp</Link>
-                  </div>:
-                  <div>
-                  <div className="btn bg-white text-primary mx-2 glow-on-hover" onClick={()=>{setCartView(true)}}>
-                    My Cart{"  "}
-                  <Badge pill bg="info">{data.length}</Badge>
-                  </div>
-                  {cartView? <Modal onClose={()=>setCartView(false)}><Cart/></Modal> :null}
-                  <div className="btn bg-white text-danger mx-3 glow-on-hover" onClick={handleLogOut}>LogOut</div>
-                  </div>}
+    <>
+      <div className="trust-strip"><span>Free delivery above ₹499</span><span>Verified pharmacy partners</span><span>Help available 24×7</span></div>
+      <header className="nav-wrap">
+        <nav className="nav-container" aria-label="Primary navigation">
+          <Link className="brand" to="/" aria-label="MediKart home">
+            <span className="brand-mark">M</span>
+            <span>MediKart<small>Care, made simple.</small></span>
+          </Link>
+          <div className={`nav-links ${menuOpen ? 'open' : ''}`}>
+            <NavLink to="/" end>Home</NavLink>
+            <NavLink to="/products">Shop</NavLink>
+            <NavLink to="/category/medicine">Medicines</NavLink>
+            <NavLink to="/category/wellness">Wellness</NavLink>
+            <NavLink to="/support">Care support</NavLink>
+          </div>
+          <div className="nav-actions">
+            <button className="icon-button desktop-only" aria-label="Search products" onClick={() => navigate('/products?focus=search')}><Search size={20} /></button>
+            {isAuthenticated ? (
+              <div className="account-menu">
+                <button className="icon-button" aria-label="Account"><UserRound size={20} /></button>
+                <div className="account-popover">
+                  <strong>{user?.name || 'Your account'}</strong>
+                  <Link to="/myorder">My orders</Link>
+                  <button onClick={logout}>Sign out</button>
+                </div>
               </div>
-          </nav>
-    </div>
+            ) : <Link className="login-link" to="/login">Sign in</Link>}
+            <button className="cart-button" onClick={() => setCartOpen(true)} aria-label={`Open cart with ${cart.length} items`}>
+              <ShoppingBag size={20} /><span className="cart-label">Cart</span>{cart.length > 0 && <b>{cart.length}</b>}
+            </button>
+            <button className="icon-button mobile-menu" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">{menuOpen ? <X /> : <Menu />}</button>
+          </div>
+        </nav>
+      </header>
+      {cartOpen && <Modal onClose={() => setCartOpen(false)}><Cart /></Modal>}
+    </>
   )
 }
