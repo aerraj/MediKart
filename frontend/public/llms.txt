@@ -1,0 +1,9 @@
+# MediKart
+
+MediKart is an online health and wellness storefront offering medicines, wellness essentials, personal care, secure checkout, and customer support.
+
+- [Home](https://medikartwebsite.vercel.app/)
+- [All products](https://medikartwebsite.vercel.app/products)
+- [Medicines](https://medikartwebsite.vercel.app/category/medicine)
+- [Wellness](https://medikartwebsite.vercel.app/category/wellness)
+- [Care support](https://medikartwebsite.vercel.app/support)

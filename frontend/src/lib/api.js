@@ -1,14 +1,14 @@
 export const API_URL = import.meta.env.VITE_API_URL || 'https://medi-kart.vercel.app/api'
 
 const fallbackProducts = [
-  { _id: 'daily-vitamins', name: 'Daily Multivitamin Essentials', CategoryName: 'Wellness', img: '/Hfd06.png', options: [{ '30 tablets': 349 }] },
-  { _id: 'everyday-care', name: 'Everyday Health Care Kit', CategoryName: 'Medicines', img: '/medbanner.png', options: [{ '1 kit': 499 }] },
-  { _id: 'personal-wellness', name: 'Personal Wellness Bundle', CategoryName: 'Personal care', img: '/ban1.png', options: [{ 'Standard': 279 }] },
-  { _id: 'first-aid', name: 'Home First Aid Essentials', CategoryName: 'First aid', img: '/comp1.png', options: [{ '1 kit': 599 }] },
-  { _id: 'immunity-care', name: 'Daily Immunity Support', CategoryName: 'Wellness', img: '/medban1.png', options: [{ '60 tablets': 429 }] },
-  { _id: 'family-care', name: 'Family Care Cabinet Pack', CategoryName: 'Medicines', img: '/m1.png', options: [{ 'Value pack': 749 }] },
-  { _id: 'skin-care', name: 'Sensitive Skin Care Set', CategoryName: 'Personal care', img: '/company_banner.png', options: [{ '3 pieces': 389 }] },
-  { _id: 'travel-kit', name: 'Compact Travel Health Kit', CategoryName: 'First aid', img: '/medbanner.png', options: [{ '1 kit': 329 }] },
+  { _id: 'daily-vitamins', name: 'Daily Multivitamin Essentials', CategoryName: 'Wellness', img: '/Hfd06.webp', options: [{ '30 tablets': 349 }] },
+  { _id: 'everyday-care', name: 'Everyday Health Care Kit', CategoryName: 'Medicines', img: '/medbanner.webp', options: [{ '1 kit': 499 }] },
+  { _id: 'personal-wellness', name: 'Personal Wellness Bundle', CategoryName: 'Personal care', img: '/ban1.webp', options: [{ 'Standard': 279 }] },
+  { _id: 'first-aid', name: 'Home First Aid Essentials', CategoryName: 'First aid', img: '/comp1.webp', options: [{ '1 kit': 599 }] },
+  { _id: 'immunity-care', name: 'Daily Immunity Support', CategoryName: 'Wellness', img: '/medban1.webp', options: [{ '60 tablets': 429 }] },
+  { _id: 'family-care', name: 'Family Care Cabinet Pack', CategoryName: 'Medicines', img: '/m1.webp', options: [{ 'Value pack': 749 }] },
+  { _id: 'skin-care', name: 'Sensitive Skin Care Set', CategoryName: 'Personal care', img: '/company_banner.webp', options: [{ '3 pieces': 389 }] },
+  { _id: 'travel-kit', name: 'Compact Travel Health Kit', CategoryName: 'First aid', img: '/medbanner.webp', options: [{ '1 kit': 329 }] },
 ]
 const fallbackCategories = ['Medicines', 'Wellness', 'Personal care', 'First aid'].map((CategoryName) => ({ _id: CategoryName, CategoryName }))
 

@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
-
-:root { font-family: 'DM Sans', sans-serif; color: #16322b; background: #f8faf7; font-synthesis: none; text-rendering: optimizeLegibility; --ink:#17352e; --muted:#687b75; --green:#176b55; --green-dark:#0c4a3a; --mint:#dff2e8; --cream:#f7f4ec; --line:#dfe7e2; --white:#fff; }
+:root { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #16322b; background: #f8faf7; font-synthesis: none; text-rendering: optimizeLegibility; --ink:#17352e; --muted:#536861; --green:#176b55; --green-dark:#0c4a3a; --mint:#dff2e8; --cream:#f7f4ec; --line:#dfe7e2; --white:#fff; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin:0; min-width:320px; min-height:100vh; background:#fbfcfa; }
@@ -10,3 +8,5 @@ a { color:inherit; text-decoration:none; }
 img { max-width:100%; }
 #root { min-height:100vh; }
 ::selection { background:#bde4d4; color:#12372c; }
+:focus-visible { outline:3px solid #2d8a70; outline-offset:3px; }
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior:auto!important; animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; } }
