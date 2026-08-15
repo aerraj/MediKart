@@ -20,7 +20,7 @@ export default function Card({ medItem }) {
     <article className="product-card">
       <Link className="product-image" to={`/products/${encodeURIComponent(id)}`} state={{ product: medItem }}>
         <span className="product-chip"><ShieldCheck size={13} /> Verified</span>
-        <img src={medItem.img} alt={medItem.name} loading="lazy" />
+        <img src={medItem.img} alt={medItem.name} loading="lazy" decoding="async" width="480" height="480" referrerPolicy="no-referrer" />
         <span className="open-product"><ArrowUpRight size={18} /></span>
       </Link>
       <div className="product-meta">

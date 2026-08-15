@@ -21,7 +21,7 @@ export default function Home() {
   const navigate = useNavigate()
 
   useEffect(() => { fetchCatalog().then(({ products, categories }) => { setProducts(products); setCategories(categories) }).catch(console.error).finally(() => setLoading(false)) }, [])
-  const featured = useMemo(() => products.slice(0, 8), [products])
+  const featured = useMemo(() => products.slice(0, 4), [products])
   const submitSearch = (event) => { event.preventDefault(); navigate(`/products?q=${encodeURIComponent(query)}`) }
 
   return (
@@ -33,11 +33,11 @@ export default function Home() {
           <span className="eyebrow"><Sparkles size={15} /> Healthcare, thoughtfully delivered</span>
           <h1>Your health cabinet,<br /><em>beautifully simple.</em></h1>
           <p>Trusted essentials, clear product information, and dependable doorstep delivery—without the pharmacy aisle overwhelm.</p>
-          <form className="hero-search" onSubmit={submitSearch}><Search /><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search medicines, wellness, personal care…" /><button>Find care <ArrowRight size={18} /></button></form>
+          <form className="hero-search" onSubmit={submitSearch}><Search /><input aria-label="Search products" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search medicines, wellness, personal care…" /><button>Find care <ArrowRight size={18} /></button></form>
           <div className="hero-proof"><span><ShieldCheck /> Genuine products</span><span><Truck /> Fast delivery</span><span><BadgeCheck /> Secure checkout</span></div>
         </div>
         <div className="hero-visual">
-          <div className="hero-card hero-card-main"><span>Everyday wellness</span><img src="/medban1.png" alt="A collection of healthcare essentials" /><div><strong>Care that fits real life.</strong><small>Curated for everyday routines</small></div></div>
+          <div className="hero-card hero-card-main"><span>Everyday wellness</span><img src="/medban1.webp" alt="A collection of healthcare essentials" width="720" height="720" /><div><strong>Care that fits real life.</strong><small>Curated for everyday routines</small></div></div>
           <div className="floating-note note-one"><HeartPulse /><span><strong>24×7</strong>Care support</span></div>
           <div className="floating-note note-two"><BadgeCheck /><span><strong>100%</strong>Verified products</span></div>
         </div>

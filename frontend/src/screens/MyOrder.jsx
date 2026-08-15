@@ -1,89 +1,31 @@
-import { useEffect, useState } from 'react';
-import Navbar from './../components/Navbar';
-import Footer from './../components/Footer';
+import { useEffect, useState } from 'react'
+import { PackageCheck, ShoppingBag } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import Layout from '../components/Layout'
+import { API_URL } from '../lib/api'
 
 export default function MyOrder() {
-  const [orderData, setOrderData] = useState('');
-  const [loading, setLoading] = useState(true);
-
-  const fetchMyOrder = async () => {
-    try {
-      const response = await fetch('https://medi-kart.vercel.app/api/myOrderData', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          email: localStorage.getItem('userEmail')
-        })
-      });
-      const responseData = await response.json();
-      setOrderData(responseData);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [orders, setOrders] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
 
   useEffect(() => {
-    fetchMyOrder();
-  }, []);
+    const controller = new AbortController()
+    async function loadOrders() {
+      try {
+        const response = await fetch(`${API_URL}/myOrderData`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: localStorage.getItem('userEmail') }), signal: controller.signal })
+        if (!response.ok) throw new Error('We could not load your orders.')
+        const data = await response.json()
+        setOrders(data?.orderData?.order_data?.slice().reverse() || [])
+      } catch (requestError) {
+        if (requestError.name !== 'AbortError') setError(requestError.message)
+      } finally { setLoading(false) }
+    }
+    loadOrders()
+    return () => controller.abort()
+  }, [])
 
-  return (
-    <>
-      <div>
-        <Navbar />
-      </div>
-      {loading ? (
-        <div className="d-flex justify-content-center align-items-center vh-100">
-          <div className="spinner-border text-primary" role="status" style={{ width: '4rem', height: '4rem' }}>
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        </div>
-      ) : (
-        <div className='container'>
-          <div className='row'>
-            {orderData && orderData.orderData ? (
-              orderData.orderData.order_data.slice(0).reverse().map((item, index) => (
-                <div key={index}>
-                  {item.map((arrayData, innerIndex) => (
-                    <div key={innerIndex}>
-                      {arrayData.Order_date ? (
-                        <div className='m-auto mt-5'>
-                          {arrayData.Order_date}
-                          <hr />
-                        </div>
-                      ) : (
-                        <div className='col-12 col-md-6 col-lg-3' key={arrayData._id}>
-                          <div className='card mt-3' style={{ width: '16rem', maxHeight: '360px' }}>
-                            <div className='card-body'>
-                              <h5 className='card-title'>{arrayData.name}</h5>
-                              <div className='container w-100 p-0' style={{ height: '38px' }}>
-                                <span className='m-1'>{arrayData.qty}</span>
-                                <span className='m-1'>{arrayData.size}</span>
-                                <span className='m-1'>{arrayData.Order_date}</span>
-                                <div className='d-inline ms-2 h-100 w-20 fs-5'>
-                                  ₹{arrayData.price}/-
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              ))
-            ) : (
-              <div>No order data available</div>
-            )}
-          </div>
-        </div>
-      )}
-      <div>
-        <Footer />
-      </div>
-    </>
-  );
+  return <Layout className="orders-page"><section className="orders-shell"><span className="eyebrow"><PackageCheck /> Your MediKart account</span><h1>Order history</h1><p className="orders-intro">Track the essentials you have ordered and revisit previous purchases.</p>
+    {loading ? <div className="page-loader" role="status"><span />Loading your orders…</div> : error ? <div className="order-empty"><ShoppingBag /><h2>Orders are unavailable</h2><p>{error}</p></div> : orders.length ? <div className="order-list">{orders.map((order, orderIndex) => <section className="order-group" key={orderIndex}>{order.map((item, itemIndex) => item.Order_date ? <h2 key={itemIndex}>{item.Order_date}</h2> : <article key={item._id || itemIndex}><div><span>{item.CategoryName || 'MediKart order'}</span><h3>{item.name}</h3><p>{item.qty} × {item.size}</p></div><strong>₹{Number(item.price || 0).toFixed(2)}</strong></article>)}</section>)}</div> : <div className="order-empty"><ShoppingBag /><h2>No orders yet</h2><p>Your completed purchases will appear here.</p><Link to="/products">Explore products</Link></div>}
+  </section></Layout>
 }
