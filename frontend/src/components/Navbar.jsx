@@ -4,19 +4,17 @@ import { Menu, Search, ShoppingBag, UserRound, X } from 'lucide-react'
 import { useCart } from './ContextReducer'
 import Modal from '../Modal'
 import Cart from '../screens/Cart'
+import { logout as endSession } from '../lib/api'
 
 export default function Navbar() {
   const cart = useCart()
   const navigate = useNavigate()
   const [cartOpen, setCartOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
-  const isAuthenticated = Boolean(localStorage.getItem('authToken'))
+  const isAuthenticated = Boolean(localStorage.getItem('user'))
   const user = JSON.parse(localStorage.getItem('user') || 'null')
 
-  const logout = () => {
-    ['authToken', 'userEmail', 'user'].forEach((key) => localStorage.removeItem(key))
-    navigate('/')
-  }
+  const logout = async () => { await endSession(); navigate('/') }
 
   return (
     <>

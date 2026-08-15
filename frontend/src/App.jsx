@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import { CartProvider } from './components/ContextReducer'
+import ProtectedRoute from './components/ProtectedRoute'
 import Home from './screens/Home'
 
 const Catalog = lazy(() => import('./screens/Catalog'))
@@ -27,7 +28,7 @@ export default function App() {
             <Route path="/category/:category" element={<Catalog />} />
             <Route path="/login" element={<Login />} />
             <Route path="/createuser" element={<Signup />} />
-            <Route path="/myorder" element={<MyOrder />} />
+            <Route path="/myorder" element={<ProtectedRoute><MyOrder /></ProtectedRoute>} />
             <Route path="/support" element={<Support />} />
           </Routes>
         </Suspense>

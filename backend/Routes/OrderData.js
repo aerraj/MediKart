@@ -1,44 +1,33 @@
-const express=require('express');
-const router=express.Router();
-const Order=require('../models/Orders');
+const express = require('express')
+const authenticate = require('../middleware/auth')
+const Order = require('../models/Orders')
+const User = require('../models/User')
+const { priceCart, summarizeCart } = require('../services/catalog')
 
-router.post('/orderData',async(req,res)=>{
-    let data = req.body.order_data
-    await data.splice(0,0,{ Order_date: req.body.order_date })
-    let eId = await Order.findOne({'email':req.body.email})
-    if(eId === null) {
-        try {
-            await Order.create({
-                email: req.body.email,
-                order_data: [data]
-            }).then(()=>{
-                res.json({success: true})
-            })
-        } catch (error) {
-            console.log(error.message)
-            res.status(400).send(error.message)
-        }
-    }
+const router = express.Router()
 
-    else{
-        try {
-            await Order.findOneAndUpdate({ email:req.body.email },
-                {$push: { order_data: data }}).then(()=>{
-                    res.json({success:true})
-                })   
-        } catch (error) {
-            res.send("Server Error",error.message)
-        }
-    }
+router.post('/orderData', authenticate, async (req, res, next) => {
+  try {
+    const [user, items] = await Promise.all([User.findById(req.user.id).select('email'), priceCart(req.body.products)])
+    if (!user) return res.status(401).json({ success: false, error: 'Account no longer exists' })
+    const totals = summarizeCart(items)
+    const order = await Order.create({ user: user._id, email: user.email, items, ...totals, status: 'placed', paymentMethod: 'cod' })
+    return res.status(201).json({ success: true, orderId: order.id })
+  } catch (error) { return next(error) }
 })
 
-
-router.post('/myorderData',async(req,res)=>{
-try {
-    let myData = await Order.findOne({'email':req.body.email})
-    res.json({orderData:myData})
-} catch (error) {
-    res.send("Server Error",error.message)
-} 
+router.get('/myOrderData', authenticate, async (req, res, next) => {
+  try {
+    const orders = await Order.find({ user: req.user.id }).sort({ createdAt: -1 }).lean()
+    return res.json({ success: true, orders })
+  } catch (error) { return next(error) }
 })
-    module.exports = router;
+
+router.post('/myOrderData', authenticate, async (req, res, next) => {
+  try {
+    const orders = await Order.find({ user: req.user.id }).sort({ createdAt: -1 }).lean()
+    return res.json({ success: true, orders })
+  } catch (error) { return next(error) }
+})
+
+module.exports = router
