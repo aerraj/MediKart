@@ -10,15 +10,26 @@ const UserSchema = new Schema({
     },
     location:{
         type: String,
-        required: true
+        default: ''
     },
     email:{
         type: String,
-        required: true
+        required: true,
+        unique: true,
+        lowercase: true
     },
     password:{
         type: String,
-        required: true
+        default: ''
+    },
+    authProvider:{
+        type: String,
+        enum: ['local', 'google'],
+        default: 'local'
+    },
+    avatar:{
+        type: String,
+        default: ''
     },
     date:{
         type:Date,

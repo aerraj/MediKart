@@ -1,121 +1,59 @@
-import { useState, useEffect, useMemo } from 'react';
-import Navbar from './../components/Navbar';
-import Footer from './../components/Footer';
-import Card from './../components/Card';
+import { useEffect, useMemo, useState } from 'react'
+import { ArrowRight, BadgeCheck, HeartPulse, Search, ShieldCheck, Sparkles, Truck } from 'lucide-react'
+import { Link, useNavigate } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast'
+import Card from '../components/Card'
+import Layout from '../components/Layout'
+import { fetchCatalog } from '../lib/api'
+
+const categoryArt = [
+  { icon: 'Rx', tone: 'mint', copy: 'Everyday prescriptions' },
+  { icon: 'V+', tone: 'sun', copy: 'Vitamins & nutrition' },
+  { icon: '✦', tone: 'lilac', copy: 'Personal wellness' },
+  { icon: '♡', tone: 'rose', copy: 'First aid & care' },
+]
 
 export default function Home() {
-    const [search, setSearch] = useState('');
-    const [medCat, setMedCat] = useState([]);
-    const [medItem, setMedItem] = useState([]);
-    const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState([])
+  const [categories, setCategories] = useState([])
+  const [query, setQuery] = useState('')
+  const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
 
-    const loadData = async () => {
-        try {
-            const response = await fetch('https://medi-kart.vercel.app/api/displayData', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            });
-            const result = await response.json();
-            setMedItem(result[0] || []);
-            setMedCat(result[1] || []);
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
+  useEffect(() => { fetchCatalog().then(({ products, categories }) => { setProducts(products); setCategories(categories) }).catch(console.error).finally(() => setLoading(false)) }, [])
+  const featured = useMemo(() => products.slice(0, 8), [products])
+  const submitSearch = (event) => { event.preventDefault(); navigate(`/products?q=${encodeURIComponent(query)}`) }
 
-    useEffect(() => {
-        loadData();
-    }, []);
-
-    const filteredItems = useMemo(() => {
-        return medItem.filter(item =>
-            item.name.toLowerCase().includes(search.toLowerCase())
-        );
-    }, [medItem, search]);
-
-    return (
-        <div>
-            <Navbar />
-            {loading ? (
-                <div className="d-flex justify-content-center align-items-center vh-100">
-                    <div className="spinner-border text-primary" role="status" style={{ width: '4rem', height: '4rem' }}>
-                        <span className="visually-hidden">Loading...</span>
-                    </div>
-                </div>
-            ) : (
-                <>
-                    <div id="carouselExampleControls" className="carousel slide carousel-fade" data-bs-ride="carousel" style={{ objectFit: "contain !important" }}>
-                        <div className="carousel-inner" id="carousel">
-                            <div className="carousel-caption">
-                                <div className="carousel-caption" style={{ zIndex: 9 }}>
-                                    <div className="d-flex justify-content-center">
-                                        <input
-                                            className="form-control me-2 w-75 bg-white text-dark"
-                                            type="search"
-                                            placeholder="Type in..."
-                                            aria-label="Search"
-                                            value={search}
-                                            onChange={(e) => setSearch(e.target.value)}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="carousel-item active">
-                                <img src="m1.png" className="carouselImg d-block w-100" alt="" />
-                            </div>
-                            <div className="carousel-item">
-                                <img src="comp1.png" className="carouselImg d-block w-100" alt="..." />
-                            </div>
-                            <div className="carousel-item">
-                                <img src="ban1.png" className="carouselImg d-block w-100" alt="..." />
-                            </div>
-                        </div>
-                        <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span className="visually-hidden">Previous</span>
-                        </button>
-                        <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                            <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span className="visually-hidden">Next</span>
-                        </button>
-                    </div>
-                    {localStorage.getItem("authToken") ? (
-                        <div className='container'>
-                            {medCat.length > 0 ? (
-                                medCat.map((data) => (
-                                    <div className='row mb-3' key={data._id}>
-                                        <div className='fs-3 m-3'>{data.CategoryName}</div>
-                                        <hr />
-                                        {filteredItems.length > 0 ? (
-                                            filteredItems
-                                                .filter(item => item.CategoryName === data.CategoryName)
-                                                .map(filterItems => (
-                                                    <div key={filterItems._id} className='col-12 col-md-6 col-lg-3'>
-                                                        <Card medItem={filterItems} options={filterItems.options[0]} />
-                                                    </div>
-                                                ))
-                                        ) : (
-                                            <div>No Such Data Found</div>
-                                        )}
-                                    </div>
-                                ))
-                            ) : (
-                                <div className='m-10'>If Products are Not Visible,Logout and Login Once Again</div>
-                            )}
-                        </div>
-                    ) : (
-                        <div style={{ backgroundColor: '#f0f0f0', padding: '20px', textAlign: 'center' }}>
-                            <h1 style={{ color: '#012970' }}>Sign Up Today to access and buy a wide range of our Healthcare Products</h1>
-                        </div>
-                    )}
-                </>
-            )}
-            <Footer />
+  return (
+    <Layout>
+      <Toaster position="bottom-center" />
+      <section className="hero">
+        <div className="hero-orb one" /><div className="hero-orb two" />
+        <div className="hero-copy">
+          <span className="eyebrow"><Sparkles size={15} /> Healthcare, thoughtfully delivered</span>
+          <h1>Your health cabinet,<br /><em>beautifully simple.</em></h1>
+          <p>Trusted essentials, clear product information, and dependable doorstep delivery—without the pharmacy aisle overwhelm.</p>
+          <form className="hero-search" onSubmit={submitSearch}><Search /><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search medicines, wellness, personal care…" /><button>Find care <ArrowRight size={18} /></button></form>
+          <div className="hero-proof"><span><ShieldCheck /> Genuine products</span><span><Truck /> Fast delivery</span><span><BadgeCheck /> Secure checkout</span></div>
         </div>
-    );
-}
+        <div className="hero-visual">
+          <div className="hero-card hero-card-main"><span>Everyday wellness</span><img src="/medban1.png" alt="A collection of healthcare essentials" /><div><strong>Care that fits real life.</strong><small>Curated for everyday routines</small></div></div>
+          <div className="floating-note note-one"><HeartPulse /><span><strong>24×7</strong>Care support</span></div>
+          <div className="floating-note note-two"><BadgeCheck /><span><strong>100%</strong>Verified products</span></div>
+        </div>
+      </section>
 
+      <section className="section category-section">
+        <div className="section-heading"><div><span className="eyebrow">Shop by need</span><h2>A calmer way to find care.</h2></div><Link to="/products">Explore everything <ArrowRight size={17} /></Link></div>
+        <div className="category-grid">{(categories.length ? categories.slice(0, 4) : [{ CategoryName: 'Medicines' }, { CategoryName: 'Wellness' }, { CategoryName: 'Personal care' }, { CategoryName: 'First aid' }]).map((item, i) => <Link key={item._id || item.CategoryName} className={`category-card ${categoryArt[i].tone}`} to={`/category/${encodeURIComponent(item.CategoryName)}`}><span>{categoryArt[i].icon}</span><div><h3>{item.CategoryName}</h3><p>{categoryArt[i].copy}</p></div><ArrowRight /></Link>)}</div>
+      </section>
+
+      <section className="section product-section">
+        <div className="section-heading"><div><span className="eyebrow">Community favourites</span><h2>Wellness, well chosen.</h2><p>Popular essentials from trusted brands and verified sellers.</p></div><Link to="/products">View the full shelf <ArrowRight size={17} /></Link></div>
+        {loading ? <div className="product-grid">{Array.from({ length: 4 }, (_, i) => <div className="product-skeleton" key={i} />)}</div> : <div className="product-grid">{featured.map((product) => <Card key={product._id || product.name} medItem={product} />)}</div>}
+      </section>
+
+      <section className="care-banner"><div><span className="eyebrow">MediKart care</span><h2>Not sure what belongs in your routine?</h2><p>Our support team can help you navigate products and orders. For medical advice, we’ll always point you to a qualified professional.</p><Link to="/support">Talk to care support <ArrowRight /></Link></div><div className="care-illustration"><span>+</span><HeartPulse /></div></section>
+    </Layout>
+  )
+}

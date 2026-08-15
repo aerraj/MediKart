@@ -1,83 +1,15 @@
 import { useState } from 'react'
+import { GoogleLogin } from '@react-oauth/google'
+import { ArrowRight, Check, Eye, EyeOff } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
-import Navbar from './../components/Navbar';
-import Footer from './../components/Footer';
-export default function Login () {
-  const [credentials, setcredentials] = useState({
-    email: '',
-    password: ''
-  })
-  let navigate = useNavigate()
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const response = await fetch('https://medi-kart.vercel.app/api/loginUser', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        password: credentials.password,
-        email: credentials.email
-      })
-    })
+import toast, { Toaster } from 'react-hot-toast'
+import Layout from '../components/Layout'
+import { API_URL, googleLogin, persistSession } from '../lib/api'
 
-    const json = await response.json()
-    if (!json.success) {
-      alert('Enter Valid Credentials')
-    }
-    if (json.success) {
-      localStorage.setItem('userEmail', credentials.email)
-      localStorage.setItem('authToken', json.authToken)
-      // console.log(localStorage.getItem('authToken'))
-      navigate('/')
-    }
-  }
-  const onChange = (event) => {
-    setcredentials({ ...credentials, [event.target.name]: event.target.value })
-  }
-
-  return (
-    <div>
-      <Navbar/>
-      <div className='container border border-primary rounded mt-5 p-3'>
-        <form onSubmit={handleSubmit}>
-          <div className='mb-3'>
-            <label htmlFor='exampleInputEmail1' className='form-label'>
-              Email address
-            </label>
-            <input
-              type='email'
-              className='form-control'
-              name='email'
-              value={credentials.email}
-              onChange={onChange}
-              id='exampleInputEmail1'
-              aria-describedby='emailHelp'
-            />
-          </div>
-          <div className='mb-3'>
-            <label htmlFor='exampleInputPassword1' className='form-label'>
-              Password
-            </label>
-            <input
-              type='password'
-              className='form-control'
-              name='password'
-              value={credentials.password}
-              onChange={onChange}
-              id='exampleInputPassword1'
-            />
-          </div>
-          <button type='submit' className='m-3 btn btn-primary'>
-            LogIn
-          </button>
-          <Link to='/createuser' className='m-3 btn btn-secondary'>
-            I&apos;m a new user
-          </Link>
-        </form>
-      </div>
-      <div style={{ height: '250px' }}></div>
-      <Footer/>
-    </div>
-  )
+export default function Login() {
+  const [credentials, setCredentials] = useState({ email: '', password: '' }); const [show, setShow] = useState(false); const [busy, setBusy] = useState(false); const navigate = useNavigate(); const googleEnabled = Boolean(import.meta.env.VITE_GOOGLE_CLIENT_ID)
+  const complete = (data) => { persistSession(data); navigate('/') }
+  const submit = async (event) => { event.preventDefault(); setBusy(true); try { const response = await fetch(`${API_URL}/loginUser`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(credentials) }); const data = await response.json(); if (!response.ok || !data.success) throw new Error('Check your email and password'); complete({ ...data, user: data.user || { email: credentials.email, name: credentials.email.split('@')[0] } }) } catch (error) { toast.error(error.message) } finally { setBusy(false) } }
+  const onGoogle = async ({ credential }) => { try { complete(await googleLogin(credential)) } catch (error) { toast.error(error.message) } }
+  return <Layout className="auth-page"><Toaster position="bottom-center" /><section className="auth-layout"><div className="auth-story"><span className="eyebrow">Welcome back</span><h1>Care continues<br />where you left off.</h1><p>Sign in to see your orders, keep your cart synced, and move through checkout faster.</p><ul><li><Check /> Track every order in one place</li><li><Check /> Secure, private account access</li><li><Check /> A simpler repeat-purchase experience</li></ul><div className="auth-quote">“Health shopping should feel calm, clear, and considered.”</div></div><div className="auth-card"><div><span className="eyebrow">Your MediKart account</span><h2>Sign in</h2><p>New here? <Link to="/createuser">Create your account</Link></p></div>{googleEnabled ? <GoogleLogin onSuccess={onGoogle} onError={() => toast.error('Google sign-in was cancelled')} width="360" shape="pill" text="continue_with" /> : <div className="google-config-note">Add VITE_GOOGLE_CLIENT_ID to enable Google sign-in.</div>}<div className="auth-divider"><span>or continue with email</span></div><form onSubmit={submit}><label>Email address<input type="email" required value={credentials.email} onChange={(e) => setCredentials({ ...credentials, email: e.target.value })} placeholder="you@example.com" /></label><label>Password<div className="password-field"><input type={show ? 'text' : 'password'} minLength="5" required value={credentials.password} onChange={(e) => setCredentials({ ...credentials, password: e.target.value })} placeholder="Your password" /><button type="button" onClick={() => setShow(!show)} aria-label="Show password">{show ? <EyeOff /> : <Eye />}</button></div></label><button className="auth-submit" disabled={busy}>{busy ? 'Signing in…' : <>Sign in securely <ArrowRight /></>}</button></form><Link className="forgot-link" to="/support">Need help accessing your account?</Link></div></section></Layout>
 }

@@ -144,4 +144,15 @@ The application segregates user-specific data to ensure personalized experiences
 
 ### Support Page
 ![image](https://github.com/user-attachments/assets/3519f37c-4723-40d3-b54a-32aa34f0b58a)
+# MediKart
 
+MediKart is a modern health and wellness storefront built with React, Vite, Express, MongoDB, Google Identity, and Stripe.
+
+## Local development
+
+1. Copy `frontend/.env.example` to `frontend/.env` and `backend/.env.example` to `backend/config/config.env`.
+2. Use the same Google OAuth Web Client ID for `VITE_GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_ID`.
+3. Add `http://localhost:5173` and the production frontend URL to the Google OAuth client’s Authorized JavaScript origins.
+4. Run `npm install && npm run dev` in both `frontend` and `backend`.
+
+The storefront includes a resilient demo catalog when the product API is unavailable; live MongoDB catalog data automatically replaces it when the backend responds.

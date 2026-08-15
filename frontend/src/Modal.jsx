@@ -1,36 +1,8 @@
-import ReactDom from 'react-dom'
-
-const MODAL_STYLES = {
-  position: 'fixed',
-  top: '50%',
-  left: '50%',
-  backgroundColor: 'rgb(225,237,236)',
-  transform: 'translate(-50%, -50%)',
-  zIndex: 1000,
-  height: '90%',
-  width: '90%'
-}
-
-const OVERLAY_STYLES = {
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  backgroundColor: 'rgba(0, 0, 0, .7)',
-  zIndex: 1000
-}
+import PropTypes from 'prop-types'
+import { X } from 'lucide-react'
+import { createPortal } from 'react-dom'
 
 export default function Modal({ children, onClose }) {
-
-  return ReactDom.createPortal(
-    <>
-      <div style={OVERLAY_STYLES} />
-      <div style={MODAL_STYLES}>
-        <button className='btn bg-info fs-6' style={{ marginLeft: "90%", marginTop: "5px" }} onClick={onClose}> {"X"} </button>
-        {children}
-      </div>
-    </>,
-    document.getElementById('cart-root')
-  )
+  return createPortal(<div className="modal-overlay" role="dialog" aria-modal="true" onMouseDown={onClose}><div className="cart-drawer" onMouseDown={(e) => e.stopPropagation()}><button className="modal-close" onClick={onClose} aria-label="Close cart"><X /></button>{children}</div></div>, document.getElementById('cart-root'))
 }
+Modal.propTypes = { children: PropTypes.node.isRequired, onClose: PropTypes.func.isRequired }
