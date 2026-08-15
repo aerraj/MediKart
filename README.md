@@ -1,158 +1,158 @@
-# MediKart - A Full Stack Online HealthCare Shop
-
-MediKart is a comprehensive MERN stack project designed to offer a seamless online shopping experience for healthcare products. This project features dedicated collections for healthcare items, users, order history, and includes a variety of user-friendly functionalities like add to cart, search bar, and checkout. Implemented payment using stripe.
-
-👉 Live Demo: <a href='https://medikartwebsite.vercel.app/'>MediKart Demo</a> Sample id:{email:dg00461@gmail.com password:dg00461}
-
-## Table of Contents
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-  - [Front-end](#front-end)
-  - [Back-end](#back-end)
-  - [Others](#others)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [API Endpoints](#api-endpoints)
-- [User Authentication](#user-authentication)
-- [Data Handling](#data-handling)
-
-
-## Features
-- **User Authentication**: Secure login and registration using JWT and bcrypt.
-- **Product Management**: Add, view, and search for healthcare products.
-- **Cart Functionality**: Add items to the cart, view cart, and proceed to checkout.
-- **Order History**: View past orders and their details.
-- **Notifications**: Real-time notifications using react-hot-toast.
-
-## Tech Stack
-
-### Front-end
-- **React**: JavaScript library for building user interfaces.
-- **Vite**: Fast build tool and development server for React.
-- **Bootstrap 5**: Modern and responsive design framework.
-- **JavaScript**: Programming language for dynamic content.
-- **HTML & CSS**: Markup and styling of the application.
-
-### Back-end
-- **MongoDB Atlas**: Cloud database solution.
-- **Express**: Web application framework for Node.js.
-- **Node.js**: JavaScript runtime for server-side development.
-
-### Others
-- **Bcrypt.js**: Secure password storage.
-- **Google Recaptcha**:Enables web hosts to distinguish between human and automated access to websites.
-- **JWT**: JSON Web Tokens for session maintenance.
-- **Express Validator**: Middleware for validating request data.
-- **Context API**: State management for React.
-- **React Hooks**: `useEffect`,`useReducer` and `useState` for managing component lifecycle and state.
-- **React-hot-toast**: Notifications for user interactions.
-- **Stripe**: API to integrate payment processing.
-
-## How Stripe Payment Works:
-![image](https://github.com/user-attachments/assets/4c2cbfbf-4d47-4073-9682-b60297259b7f)
-1. When customers are ready to complete their purchase, your application creates a new Checkout Session.
-2. The Checkout Session provides a URL that redirects customers to a Stripe-hosted payment page.
-3. Customers enter their payment details on the payment page and complete the transaction.
-4. After the transaction, a webhook fulfills the order using the checkout.session.completed event.
-
-
-## Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/MediKart.git
-   ```
-2. Navigate to the project directory:
-   ```bash
-   cd MediKart
-   ```
-3. Install dependencies for both client and server:
-   ```bash
-   npm install
-   cd frontend
-   npm install
-   cd backend
-   ```
-
-## Usage
-1. Start the server:
-   ```bash
-   cd backend
-   npm run dev
-   ```
-2. Start the client:
-   ```bash
-   cd frontend
-   npm run dev
-   ```
-3. Open your browser and navigate to `http://localhost:5173`.
-
-## Project Structure
-```
-MediKart/
-│
-├── client/                 # Front-end code
-│   ├── public/             # Public assets
-│   └── src/                # Source code
-│       ├── components/     # React components
-│       ├── screens/        # React Screens
-│       └── Modal.jsx       # React Cart view
-│
-├── server/                 # Back-end code
-│   ├── config/             # Configuration files
-│   ├── models/             # Mongoose models
-│   ├── routes/             # Express routes
-│   └── Database/           # Database
-│
-├── .env                    # Environment variables
-├── package.json            # Project metadata and dependencies
-└── README.md               # Project documentation
-```
-
-## API Endpoints
-- **User Routes**:
-  - POST `/api/createUser`: Register a new user.
-  - POST `/api/loginUser`: Authenticate a user and return a JWT.
-- **Product Routes**:
-  - GET `/api/displayData`: Fetch all products data.
-- **Order Routes**:
-  - POST `/api/orderData`: Create a new order.
-  - GET `/api/myorderData`: Fetch all orders for a specific user.
-- **Payment Routes**:
-  - POST `/api/payment`: Generate session ID to complete payment.
-   
-
-## User Authentication
-
-User authentication is implemented using JWT (JSON Web Tokens). Passwords are hashed using bcrypt for secure storage and to check for bots recaptcha is utilized to boost security aginst brute force attacks. Upon successful login, a token is generated and stored in the client's local storage to maintain the session.
-
-## Data Handling
-
-The application segregates user-specific data to ensure personalized experiences. The product data is maintained on the back-end and is fetched from the front-end using API calls. Each user's order history and cart data are managed individually to provide a tailored shopping experience.
-
-## Preview Images
-### Home Page
-![image](https://github.com/aerraj/MediKart/assets/61013804/967f69c0-5a14-4fef-a560-13e8912bf0e3)
-### Cart View
-![image](https://github.com/user-attachments/assets/f788d345-6347-43e1-a21f-e460dbe125f6)
-
-### Payment Page
-![image](https://github.com/user-attachments/assets/84dbc1d3-3e00-4dcd-a509-8128a395d353)
-
-### My Orders Page
-![image](https://github.com/aerraj/MediKart/assets/61013804/e6eabd1e-9ac3-46f6-8de3-9bd6e61b4884)
-
-### Support Page
-![image](https://github.com/user-attachments/assets/3519f37c-4723-40d3-b54a-32aa34f0b58a)
 # MediKart
 
-MediKart is a modern health and wellness storefront built with React, Vite, Express, MongoDB, Google Identity, and Stripe.
+MediKart is a modern MERN health-and-wellness storefront with a responsive product catalog, secure account access, server-priced carts, Stripe Checkout, cash on delivery, and authenticated order history.
 
-## Local development
+[Open the live storefront](https://medikartwebsite.vercel.app/) · [API health endpoint](https://medi-kart.vercel.app/)
 
-1. Copy `frontend/.env.example` to `frontend/.env` and `backend/.env.example` to `backend/config/config.env`.
-2. Use the same Google OAuth Web Client ID for `VITE_GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_ID`.
-3. Add `http://localhost:5173` and the production frontend URL to the Google OAuth client’s Authorized JavaScript origins.
-4. Run `npm install && npm run dev` in both `frontend` and `backend`.
+![MediKart home page](docs/screenshots/home.jpg)
 
-The storefront includes a resilient demo catalog when the product API is unavailable; live MongoDB catalog data automatically replaces it when the backend responds.
+## Highlights
+
+- Responsive catalog, search, categories, product details, cart, account, orders, and support experiences.
+- Password and Google Identity sign-in with a seven-day JWT stored in a secure `httpOnly` cookie.
+- Server-authoritative product pricing: checkout requests contain only product ID, pack size, and quantity.
+- Stripe card orders are fulfilled only after a signed `checkout.session.completed` webhook confirms payment.
+- Cash-on-delivery orders are priced and created directly by the authenticated backend.
+- One MongoDB document per order with structured line items, totals, status, payment method, and timestamps.
+- Auth rate limiting, consistent JSON errors, short-lived catalog caching, security headers, crawler metadata, and optimized WebP assets.
+- Automated security tests and GitHub Actions checks for the backend and frontend.
+
+## Screens
+
+| Catalog | Cart |
+| --- | --- |
+| ![Product catalog](docs/screenshots/catalog.jpg) | ![Shopping cart](docs/screenshots/cart.jpg) |
+
+| Account access | Care support |
+| --- | --- |
+| ![Login screen](docs/screenshots/login.jpg) | ![Support screen](docs/screenshots/support.jpg) |
+
+## Secure checkout architecture
+
+```mermaid
+sequenceDiagram
+  participant Browser
+  participant API
+  participant MongoDB
+  participant Stripe
+  Browser->>API: Product IDs, pack sizes, quantities + session cookie
+  API->>MongoDB: Load current catalog prices
+  API->>Stripe: Create server-priced Checkout Session
+  API-->>Browser: Stripe session ID
+  Browser->>Stripe: Complete hosted payment
+  Stripe->>API: Signed checkout.session.completed webhook
+  API->>MongoDB: Create paid order once (idempotent session ID)
+```
+
+The browser never decides the amount charged or marks an online order as paid. Invalid products, pack sizes, and quantities are rejected before a Checkout Session or COD order is created.
+
+## Technology
+
+- Frontend: React, Vite, React Router, Context API, Lucide, React Hot Toast, Google Identity, Stripe.js.
+- Backend: Node.js, Express, MongoDB/Mongoose, bcrypt, JWT, Google Auth Library, Stripe, Express Validator, Express Rate Limit.
+- Delivery: Vercel frontend/API deployments and GitHub Actions CI.
+
+## Local setup
+
+Requirements: Node.js 20+, npm, a MongoDB database, and test credentials for the integrations you enable.
+
+```bash
+git clone https://github.com/aerraj/MediKart.git
+cd MediKart
+
+cp backend/.env.example backend/config/config.env
+cp frontend/.env.example frontend/.env
+
+cd backend && npm install
+cd ../frontend && npm install
+```
+
+Use the same Google OAuth Web Client ID for `GOOGLE_CLIENT_ID` and `VITE_GOOGLE_CLIENT_ID`. Add `http://localhost:5173` and your production frontend URL as Authorized JavaScript origins in Google Cloud.
+
+Generate a strong JWT secret instead of using a memorable phrase:
+
+```bash
+openssl rand -base64 48
+```
+
+Start the applications in separate terminals:
+
+```bash
+cd backend && npm run dev
+cd frontend && npm run dev
+```
+
+The frontend runs at `http://localhost:5173`; the API defaults to `http://localhost:5000`.
+
+## Stripe webhook setup
+
+For local development, forward Stripe events to the backend and copy the printed signing secret to `STRIPE_WEBHOOK_SECRET`:
+
+```bash
+stripe listen --forward-to localhost:5000/api/stripe/webhook
+```
+
+In production, configure Stripe to send `checkout.session.completed` to:
+
+```text
+https://YOUR_API_DOMAIN/api/stripe/webhook
+```
+
+Required production variables are `MONGO_URI`, `JWT_SECRET`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `FRONTEND_URL`, and `CORS_ORIGINS`. Google and reCAPTCHA variables are required only when those integrations are enabled.
+
+## API
+
+| Method | Endpoint | Authentication | Purpose |
+| --- | --- | --- | --- |
+| `POST` | `/api/createUser` | Public, rate limited | Create a password account |
+| `POST` | `/api/loginUser` | Public, rate limited | Start a secure cookie session |
+| `POST` | `/api/auth/google` | Public, rate limited | Verify Google ID token and start a session |
+| `POST` | `/api/logout` | Session | Clear the session cookie |
+| `GET` / `POST` | `/api/displayData` | Public | Fetch fresh products and categories |
+| `POST` | `/api/orderData` | Required | Create a server-priced COD order |
+| `GET` | `/api/myOrderData` | Required | Read the signed-in customer’s orders |
+| `POST` | `/api/payment` | Required | Create a server-priced Stripe session |
+| `POST` | `/api/stripe/webhook` | Stripe signature | Fulfil a completed card payment |
+
+## Project layout
+
+```text
+MediKart/
+├── .github/workflows/ci.yml
+├── backend/
+│   ├── middleware/       # JWT session verification
+│   ├── models/           # User, pending checkout, structured order
+│   ├── Routes/           # Auth, catalog, orders, payment/webhook
+│   ├── services/         # Server-side catalog pricing
+│   └── test/             # Node security tests
+├── docs/screenshots/     # Current README visuals
+└── frontend/
+    ├── public/           # Optimized assets and crawler files
+    └── src/
+        ├── components/
+        ├── lib/
+        └── screens/
+```
+
+## Quality checks
+
+```bash
+cd backend
+npm test
+npm audit --omit=dev
+
+cd ../frontend
+npm run lint
+npm run build
+npm audit --omit=dev
+```
+
+CI runs backend tests plus the frontend lint and production build on every pull request and push to `main`.
+
+## Important operational notes
+
+- `JWT_SECRET` has no source-code fallback; the API refuses to start without it.
+- The session cookie is `httpOnly`, `Secure` in production, and sent only to allowed CORS origins.
+- Online order creation is webhook-driven and idempotent by Stripe Checkout Session ID.
+- Existing legacy order documents are not mutated. New orders use the structured `order_v2` collection model.
+- The frontend fallback catalog is for availability and visual continuity; live checkout still requires matching MongoDB product IDs and prices.

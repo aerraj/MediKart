@@ -1,13 +1,16 @@
-const express=require('express');
-const router=express.Router();
+const express = require('express')
+const { getCatalog } = require('../services/catalog')
 
-router.post('/displayData',async(req,res)=>{
-    try {
-        res.send([global.med_items,global.medCategory])
-    } catch (error) {
-        console.error(error.message)
-        res.send("Server Error")
-    }
-})
+const router = express.Router()
 
-module.exports=router;
+async function displayData(req, res, next) {
+  try {
+    const { products, categories } = await getCatalog()
+    res.set('Cache-Control', 'public, max-age=60, stale-while-revalidate=300')
+    return res.json([products, categories])
+  } catch (error) { return next(error) }
+}
+
+router.get('/displayData', displayData)
+router.post('/displayData', displayData)
+module.exports = router

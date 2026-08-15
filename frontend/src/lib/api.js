@@ -26,6 +26,7 @@ export async function fetchCatalog() {
 export async function googleLogin(credential) {
   const response = await fetch(`${API_URL}/auth/google`, {
     method: 'POST',
+    credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ credential }),
   })
@@ -34,8 +35,26 @@ export async function googleLogin(credential) {
   return data
 }
 
+export async function authorizedFetch(path, options = {}) {
+  const response = await fetch(`${API_URL}${path}`, {
+    ...options,
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json', ...options.headers },
+  })
+  if (response.status === 401) clearSession()
+  return response
+}
+
 export function persistSession(data) {
-  localStorage.setItem('authToken', data.authToken)
   localStorage.setItem('userEmail', data.user.email)
   localStorage.setItem('user', JSON.stringify(data.user))
+}
+
+export function clearSession() {
+  localStorage.removeItem('userEmail')
+  localStorage.removeItem('user')
+}
+
+export async function logout() {
+  try { await authorizedFetch('/logout', { method: 'POST' }) } finally { clearSession() }
 }
