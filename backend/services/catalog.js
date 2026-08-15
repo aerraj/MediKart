@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const defaultCatalog = require('../data/catalog.json')
 
 function productId(product) {
   return String(product._id || product.id || product.name)
@@ -11,7 +12,24 @@ async function getCatalog() {
     database.collection('med_items').find({}).toArray(),
     database.collection('medCategory').find({}).toArray(),
   ])
-  return { products, categories }
+  return mergeCatalog(products, categories)
+}
+
+function normalizedName(value) {
+  return String(value || '').trim().toLowerCase()
+}
+
+function mergeCatalog(products = [], categories = []) {
+  const productsByName = new Map(defaultCatalog.products.map((product) => [normalizedName(product.name), product]))
+  for (const product of products) productsByName.set(normalizedName(product.name), product)
+
+  const categoriesByName = new Map(defaultCatalog.categories.map((category) => [normalizedName(category.CategoryName), category]))
+  for (const category of categories) categoriesByName.set(normalizedName(category.CategoryName), category)
+
+  return {
+    products: [...productsByName.values()],
+    categories: [...categoriesByName.values()],
+  }
 }
 
 async function priceCart(requestedItems) {
@@ -47,4 +65,4 @@ function summarizeCart(items) {
   return { subtotal, deliveryFee, total: subtotal + deliveryFee }
 }
 
-module.exports = { getCatalog, priceCart, priceCartFromCatalog, productId, summarizeCart }
+module.exports = { getCatalog, mergeCatalog, priceCart, priceCartFromCatalog, productId, summarizeCart }

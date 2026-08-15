@@ -24,8 +24,9 @@ export default function Card({ medItem }) {
         <span className="open-product"><ArrowUpRight size={18} /></span>
       </Link>
       <div className="product-meta">
-        <p>{medItem.CategoryName || 'Everyday health'}</p>
+        <p className="product-category">{medItem.CategoryName || 'Everyday health'}</p>
         <h3><Link to={`/products/${encodeURIComponent(id)}`} state={{ product: medItem }}>{medItem.name}</Link></h3>
+        <p className="product-description">{medItem.description || 'A trusted everyday essential selected from verified pharmacy partners.'}</p>
         <div className="product-rating"><Star size={14} fill="currentColor" /> 4.8 <span>• 120+ bought</span></div>
         <div className="product-buy"><div><strong>₹{price.toFixed(2)}</strong><small>{size}</small></div><button onClick={add} aria-label={`Add ${medItem.name} to cart`}><Plus size={19} /></button></div>
       </div>

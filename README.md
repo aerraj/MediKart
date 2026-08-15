@@ -8,7 +8,7 @@ MediKart is a modern MERN health-and-wellness storefront with a responsive produ
 
 ## Highlights
 
-- Responsive catalog, search, categories, product details, cart, account, orders, and support experiences.
+- Responsive catalog with 30 locally imaged Wellness and OTC Medicines products, reactive category navigation, search, product details, cart, account, orders, support, and privacy experiences.
 - Password and Google Identity sign-in with a seven-day JWT stored in a secure `httpOnly` cookie.
 - Server-authoritative product pricing: checkout requests contain only product ID, pack size, and quantity.
 - Stripe card orders are fulfilled only after a signed `checkout.session.completed` webhook confirms payment.
@@ -83,6 +83,15 @@ cd frontend && npm run dev
 ```
 
 The frontend runs at `http://localhost:5173`; the API defaults to `http://localhost:5000`.
+
+Seed or refresh the bundled Wellness and Medicines inventory after configuring `MONGO_URI`:
+
+```bash
+cd backend
+npm run seed:catalog
+```
+
+The seeder upserts products by stable ID or exact product name, is safe to re-run, and does not remove unrelated catalog items. The API also merges the bundled catalog into reads, so a newly deployed storefront has complete categories while the database seed is being applied.
 
 ## Stripe webhook setup
 

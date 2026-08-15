@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
+    "seed:catalog": "node scripts/seedCatalog.js",
     "test": "node --test"
   },
   "author": "",

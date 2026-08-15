@@ -1,0 +1,248 @@
+{
+  "categories": [
+    { "_id": "medicines", "CategoryName": "Medicines" },
+    { "_id": "wellness", "CategoryName": "Wellness" }
+  ],
+  "products": [
+    {
+      "_id": "whey-protein-isolate",
+      "name": "Whey Protein Isolate",
+      "CategoryName": "Wellness",
+      "img": "/products/whey-protein-powder.webp",
+      "description": "Fast-absorbing protein with 25 g per serving to support training and muscle recovery.",
+      "options": [{ "500 g": 1399, "1 kg": 2499 }]
+    },
+    {
+      "_id": "daily-multivitamin",
+      "name": "Daily Multivitamin",
+      "CategoryName": "Wellness",
+      "img": "/products/daily-multivitamin-tablets.webp",
+      "description": "A balanced A–Z blend of vitamins and minerals for everyday nutrition and immunity support.",
+      "options": [{ "30 tablets": 299, "60 tablets": 549 }]
+    },
+    {
+      "_id": "omega3-fish-oil",
+      "name": "Omega-3 Fish Oil",
+      "CategoryName": "Wellness",
+      "img": "/products/omega3-fish-oil-capsules.webp",
+      "description": "1000 mg fish oil softgels with EPA and DHA to support heart and brain health.",
+      "options": [{ "60 capsules": 699 }]
+    },
+    {
+      "_id": "vitamin-d3-k2-drops",
+      "name": "Vitamin D3 + K2 Drops",
+      "CategoryName": "Wellness",
+      "img": "/products/vitamin-d3-k2-drops.webp",
+      "description": "Easy-to-use daily drops formulated to support bone strength and normal immune function.",
+      "options": [{ "30 ml": 399 }]
+    },
+    {
+      "_id": "apple-cider-vinegar",
+      "name": "Apple Cider Vinegar with Mother",
+      "CategoryName": "Wellness",
+      "img": "/products/apple-cider-vinegar.webp",
+      "description": "Raw, unfiltered apple cider vinegar for a simple, food-first addition to your routine.",
+      "options": [{ "500 ml": 349 }]
+    },
+    {
+      "_id": "green-tea-extract",
+      "name": "Green Tea Extract",
+      "CategoryName": "Wellness",
+      "img": "/products/green-tea-extract-capsules.webp",
+      "description": "Antioxidant-rich green tea extract with naturally occurring EGCG for daily wellness support.",
+      "options": [{ "60 capsules": 449 }]
+    },
+    {
+      "_id": "ashwagandha-root-extract",
+      "name": "Ashwagandha Root Extract",
+      "CategoryName": "Wellness",
+      "img": "/products/ashwagandha-capsules.webp",
+      "description": "A standardised botanical supplement designed to support resilience, energy, and stress management.",
+      "options": [{ "60 capsules": 399 }]
+    },
+    {
+      "_id": "collagen-peptides",
+      "name": "Collagen Peptides Powder",
+      "CategoryName": "Wellness",
+      "img": "/products/collagen-powder.webp",
+      "description": "Hydrolysed collagen peptides that mix easily into drinks and complement skin, hair, and joint routines.",
+      "options": [{ "250 g": 1299 }]
+    },
+    {
+      "_id": "probiotic-gut-health",
+      "name": "Probiotic Gut Health",
+      "CategoryName": "Wellness",
+      "img": "/products/probiotic-capsules.webp",
+      "description": "A 10-strain probiotic capsule created to support digestive balance and everyday gut health.",
+      "options": [{ "30 capsules": 599 }]
+    },
+    {
+      "_id": "biotin-hair-skin",
+      "name": "Biotin Hair & Skin",
+      "CategoryName": "Wellness",
+      "img": "/products/biotin-hair-skin-tablets.webp",
+      "description": "High-strength biotin tablets made for a considered hair, skin, and nail care routine.",
+      "options": [{ "60 tablets": 349 }]
+    },
+    {
+      "_id": "electrolyte-hydration-powder",
+      "name": "Electrolyte Hydration Powder",
+      "CategoryName": "Wellness",
+      "img": "/products/electrolyte-hydration-mix.webp",
+      "description": "A sugar-free electrolyte blend for convenient hydration after travel, heat, or exercise.",
+      "options": [{ "200 g": 499 }]
+    },
+    {
+      "_id": "melatonin-sleep-support",
+      "name": "Melatonin Sleep Support",
+      "CategoryName": "Wellness",
+      "img": "/products/melatonin-sleep-support.webp",
+      "description": "5 mg melatonin tablets intended for occasional support of a consistent sleep routine.",
+      "options": [{ "60 tablets": 299 }]
+    },
+    {
+      "_id": "herbal-immunity-tonic",
+      "name": "Herbal Immunity Booster Tonic",
+      "CategoryName": "Wellness",
+      "img": "/products/herbal-immunity-tonic.webp",
+      "description": "A warming botanical tonic with familiar herbs for a simple seasonal wellness ritual.",
+      "options": [{ "200 ml": 249, "450 ml": 499 }]
+    },
+    {
+      "_id": "calcium-vitamin-d3-tablets",
+      "name": "Calcium & Vitamin D3 Tablets",
+      "CategoryName": "Wellness",
+      "img": "/products/calcium-vitamin-d3-tablets.webp",
+      "description": "Calcium paired with vitamin D3 to complement daily bone-health nutrition.",
+      "options": [{ "60 tablets": 259 }]
+    },
+    {
+      "_id": "green-tea-wellness-blend",
+      "name": "Herbal Green Tea Wellness Blend",
+      "CategoryName": "Wellness",
+      "img": "/products/green-tea-wellness-blend.webp",
+      "description": "A gentle green tea and herb blend for a bright, calming cup at any time of day.",
+      "options": [{ "25 tea bags": 199 }]
+    },
+    {
+      "_id": "paracetamol-500mg",
+      "name": "Paracetamol 500 mg",
+      "CategoryName": "Medicines",
+      "img": "/products/paracetamol-tablets.webp",
+      "description": "An over-the-counter option for temporary relief from fever, headache, and mild pain.",
+      "options": [{ "10 tablets": 25, "20 tablets": 48 }]
+    },
+    {
+      "_id": "cetirizine-10mg",
+      "name": "Cetirizine 10 mg",
+      "CategoryName": "Medicines",
+      "img": "/products/allergy-relief-tablets.webp",
+      "description": "An antihistamine for short-term relief of common allergy symptoms such as sneezing and itching.",
+      "options": [{ "10 tablets": 35 }]
+    },
+    {
+      "_id": "ors-rehydration-sachets",
+      "name": "ORS Rehydration Sachets",
+      "CategoryName": "Medicines",
+      "img": "/products/ors-rehydration-sachets.webp",
+      "description": "WHO-formula oral rehydration salts for replacing fluids and electrolytes during dehydration.",
+      "options": [{ "5 sachets": 45 }]
+    },
+    {
+      "_id": "ibuprofen-400mg",
+      "name": "Ibuprofen 400 mg",
+      "CategoryName": "Medicines",
+      "img": "/products/ibuprofen-tablets.webp",
+      "description": "An over-the-counter anti-inflammatory tablet for temporary relief of pain and swelling.",
+      "options": [{ "10 tablets": 40 }]
+    },
+    {
+      "_id": "antacid-chewable-tablets",
+      "name": "Antacid Chewable Tablets",
+      "CategoryName": "Medicines",
+      "img": "/products/antacid-chewable-tablets.webp",
+      "description": "Mint-flavoured chewable tablets for fast, temporary relief from acidity and heartburn.",
+      "options": [{ "10 tablets": 30, "20 tablets": 55 }]
+    },
+    {
+      "_id": "cough-syrup-honey-tulsi",
+      "name": "Cough Syrup — Honey & Tulsi",
+      "CategoryName": "Medicines",
+      "img": "/products/cough-syrup-honey-tulsi.webp",
+      "description": "A soothing honey-and-tulsi syrup for temporary relief of dry and productive coughs.",
+      "options": [{ "100 ml": 95 }]
+    },
+    {
+      "_id": "digital-thermometer",
+      "name": "Digital Thermometer",
+      "CategoryName": "Medicines",
+      "img": "/products/digital-thermometer.webp",
+      "description": "A compact digital thermometer for quick, easy-to-read temperature checks at home.",
+      "options": [{ "1 unit": 199 }]
+    },
+    {
+      "_id": "antiseptic-liquid",
+      "name": "Antiseptic Liquid",
+      "CategoryName": "Medicines",
+      "img": "/products/antiseptic-liquid-solution.webp",
+      "description": "A first-aid antiseptic liquid for cleaning minor cuts, grazes, and intact skin as directed.",
+      "options": [{ "100 ml": 85, "250 ml": 179 }]
+    },
+    {
+      "_id": "adhesive-bandages",
+      "name": "Adhesive Bandages",
+      "CategoryName": "Medicines",
+      "img": "/products/adhesive-bandages.webp",
+      "description": "Sterile, flexible adhesive bandages that help protect everyday minor cuts and grazes.",
+      "options": [{ "20 bandages": 60 }]
+    },
+    {
+      "_id": "pain-relief-gel",
+      "name": "Pain Relief Gel",
+      "CategoryName": "Medicines",
+      "img": "/products/pain-relief-gel.webp",
+      "description": "A topical gel for temporary relief of everyday muscle and joint discomfort.",
+      "options": [{ "30 g": 120 }]
+    },
+    {
+      "_id": "vitamin-c-effervescent",
+      "name": "Vitamin C Effervescent",
+      "CategoryName": "Medicines",
+      "img": "/products/vitamin-c-effervescent.webp",
+      "description": "1000 mg orange-flavoured effervescent vitamin C tablets for convenient daily supplementation.",
+      "options": [{ "20 tablets": 180 }]
+    },
+    {
+      "_id": "hand-sanitizer-70",
+      "name": "Hand Sanitizer 70%",
+      "CategoryName": "Medicines",
+      "img": "/products/hand-sanitizer-70.webp",
+      "description": "A quick-drying alcohol-based hand sanitiser for use when soap and water are unavailable.",
+      "options": [{ "200 ml": 99 }]
+    },
+    {
+      "_id": "cold-flu-relief-tablets",
+      "name": "Cold & Flu Relief Tablets",
+      "CategoryName": "Medicines",
+      "img": "/products/cold-flu-relief-tablets.webp",
+      "description": "A multi-symptom over-the-counter option for temporary cold and flu relief; follow the label carefully.",
+      "options": [{ "10 tablets": 60 }]
+    },
+    {
+      "_id": "digestive-enzyme-tablets",
+      "name": "Digestive Enzyme Tablets",
+      "CategoryName": "Medicines",
+      "img": "/products/digestive-enzyme-tablets.webp",
+      "description": "A convenient enzyme supplement intended to support the digestion of everyday meals.",
+      "options": [{ "20 tablets": 150 }]
+    },
+    {
+      "_id": "multivitamin-effervescent-tablets",
+      "name": "Multivitamin Effervescent Tablets",
+      "CategoryName": "Medicines",
+      "img": "/products/multivitamin-effervescent-tablets.webp",
+      "description": "A fizzy multivitamin drink tablet for a convenient addition to a balanced daily routine.",
+      "options": [{ "10 tablets": 180 }]
+    }
+  ]
+}

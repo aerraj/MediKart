@@ -28,7 +28,7 @@ export default function Navbar() {
           <div className={`nav-links ${menuOpen ? 'open' : ''}`}>
             <NavLink to="/" end>Home</NavLink>
             <NavLink to="/products">Shop</NavLink>
-            <NavLink to="/category/medicine">Medicines</NavLink>
+            <NavLink to="/category/medicines">Medicines</NavLink>
             <NavLink to="/category/wellness">Wellness</NavLink>
             <NavLink to="/support">Care support</NavLink>
           </div>

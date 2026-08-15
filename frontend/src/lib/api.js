@@ -1,26 +1,28 @@
 export const API_URL = import.meta.env.VITE_API_URL || 'https://medi-kart.vercel.app/api'
 
-const fallbackProducts = [
-  { _id: 'daily-vitamins', name: 'Daily Multivitamin Essentials', CategoryName: 'Wellness', img: '/Hfd06.webp', options: [{ '30 tablets': 349 }] },
-  { _id: 'everyday-care', name: 'Everyday Health Care Kit', CategoryName: 'Medicines', img: '/medbanner.webp', options: [{ '1 kit': 499 }] },
-  { _id: 'personal-wellness', name: 'Personal Wellness Bundle', CategoryName: 'Personal care', img: '/ban1.webp', options: [{ 'Standard': 279 }] },
-  { _id: 'first-aid', name: 'Home First Aid Essentials', CategoryName: 'First aid', img: '/comp1.webp', options: [{ '1 kit': 599 }] },
-  { _id: 'immunity-care', name: 'Daily Immunity Support', CategoryName: 'Wellness', img: '/medban1.webp', options: [{ '60 tablets': 429 }] },
-  { _id: 'family-care', name: 'Family Care Cabinet Pack', CategoryName: 'Medicines', img: '/m1.webp', options: [{ 'Value pack': 749 }] },
-  { _id: 'skin-care', name: 'Sensitive Skin Care Set', CategoryName: 'Personal care', img: '/company_banner.webp', options: [{ '3 pieces': 389 }] },
-  { _id: 'travel-kit', name: 'Compact Travel Health Kit', CategoryName: 'First aid', img: '/medbanner.webp', options: [{ '1 kit': 329 }] },
-]
-const fallbackCategories = ['Medicines', 'Wellness', 'Personal care', 'First aid'].map((CategoryName) => ({ _id: CategoryName, CategoryName }))
+let fallbackCatalogPromise
+
+function loadFallbackCatalog() {
+  if (!fallbackCatalogPromise) {
+    fallbackCatalogPromise = fetch('/catalog.json', { cache: 'force-cache' }).then((response) => {
+      if (!response.ok) throw new Error('Unable to load the local catalog')
+      return response.json()
+    })
+  }
+  return fallbackCatalogPromise
+}
 
 export async function fetchCatalog() {
   try {
-    const response = await fetch(`${API_URL}/displayData`, { method: 'POST', headers: { 'Content-Type': 'application/json' } })
+    const response = await fetch(`${API_URL}/displayData`)
     if (!response.ok) throw new Error('Unable to load the catalog')
     const [products = [], categories = []] = await response.json()
-    return { products: products.length ? products : fallbackProducts, categories: categories.length ? categories : fallbackCategories }
+    if (products.length && categories.length) return { products, categories }
   } catch {
-    return { products: fallbackProducts, categories: fallbackCategories }
+    // The local catalog keeps browsing and cart-building usable during an API outage.
   }
+
+  return loadFallbackCatalog()
 }
 
 export async function googleLogin(credential) {
