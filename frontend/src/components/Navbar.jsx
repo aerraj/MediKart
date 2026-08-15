@@ -14,7 +14,8 @@ export default function Navbar() {
   const isAuthenticated = Boolean(localStorage.getItem('user'))
   const user = JSON.parse(localStorage.getItem('user') || 'null')
 
-  const logout = async () => { await endSession(); navigate('/') }
+  const closeMenu = () => setMenuOpen(false)
+  const logout = async () => { closeMenu(); await endSession(); navigate('/') }
 
   return (
     <>
@@ -25,12 +26,25 @@ export default function Navbar() {
             <span className="brand-mark">M</span>
             <span>MediKart<small>Care, made simple.</small></span>
           </Link>
-          <div className={`nav-links ${menuOpen ? 'open' : ''}`}>
-            <NavLink to="/" end>Home</NavLink>
-            <NavLink to="/products">Shop</NavLink>
-            <NavLink to="/category/medicines">Medicines</NavLink>
-            <NavLink to="/category/wellness">Wellness</NavLink>
-            <NavLink to="/support">Care support</NavLink>
+          <div className={`nav-links ${menuOpen ? 'open' : ''}`} id="primary-nav-links">
+            <NavLink to="/" end onClick={closeMenu}>Home</NavLink>
+            <NavLink to="/products" onClick={closeMenu}>Shop</NavLink>
+            <NavLink to="/category/medicines" onClick={closeMenu}>Medicines</NavLink>
+            <NavLink to="/category/wellness" onClick={closeMenu}>Wellness</NavLink>
+            <NavLink to="/support" onClick={closeMenu}>Care support</NavLink>
+            <div className="mobile-auth-links" role="group" aria-label="Account actions">
+              {isAuthenticated ? (
+                <>
+                  <span className="mobile-account-name">{user?.name || 'Your account'}</span>
+                  <Link to="/myorder" onClick={closeMenu}>My orders</Link>
+                  <button type="button" onClick={logout}>Sign out</button>
+                </>
+              ) : (
+                <Link className="mobile-signin-link" to="/login" onClick={closeMenu}>
+                  <UserRound size={18} /> Sign in
+                </Link>
+              )}
+            </div>
           </div>
           <div className="nav-actions">
             <button className="icon-button desktop-only" aria-label="Search products" onClick={() => navigate('/products?focus=search')}><Search size={20} /></button>
@@ -47,7 +61,7 @@ export default function Navbar() {
             <button className="cart-button" onClick={() => setCartOpen(true)} aria-label={`Open cart with ${cart.length} items`}>
               <ShoppingBag size={20} /><span className="cart-label">Cart</span>{cart.length > 0 && <b>{cart.length}</b>}
             </button>
-            <button className="icon-button mobile-menu" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">{menuOpen ? <X /> : <Menu />}</button>
+            <button className="icon-button mobile-menu" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu" aria-expanded={menuOpen} aria-controls="primary-nav-links">{menuOpen ? <X /> : <Menu />}</button>
           </div>
         </nav>
       </header>
