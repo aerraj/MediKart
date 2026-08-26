@@ -8,6 +8,7 @@ import { logout as endSession } from '../lib/api'
 
 export default function Navbar() {
   const cart = useCart()
+  const cartQuantity = cart.reduce((total, item) => total + item.qty, 0)
   const navigate = useNavigate()
   const [cartOpen, setCartOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -58,8 +59,8 @@ export default function Navbar() {
                 </div>
               </div>
             ) : <Link className="login-link" to="/login">Sign in</Link>}
-            <button className="cart-button" onClick={() => setCartOpen(true)} aria-label={`Open cart with ${cart.length} items`}>
-              <ShoppingBag size={20} /><span className="cart-label">Cart</span>{cart.length > 0 && <b>{cart.length}</b>}
+            <button className="cart-button" onClick={() => setCartOpen(true)} aria-label={`Open cart with ${cartQuantity} items`}>
+              <ShoppingBag size={20} /><span className="cart-label">Cart</span>{cartQuantity > 0 && <b>{cartQuantity}</b>}
             </button>
             <button className="icon-button mobile-menu" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu" aria-expanded={menuOpen} aria-controls="primary-nav-links">{menuOpen ? <X /> : <Menu />}</button>
           </div>

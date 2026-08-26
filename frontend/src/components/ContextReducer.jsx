@@ -1,49 +1,15 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useReducer } from "react";
 import PropTypes from 'prop-types';
+import { ADD_ITEM, DROP_CART, REMOVE_ITEM, UPDATE_ITEM, cartReducer } from './cartReducer'
 
 // Create contexts for state and dispatch
 const CartStateContext = createContext();
 const CartDispatchContext = createContext();
 
-// Define action types
-const ADD_ITEM = "ADD";
-const REMOVE_ITEM = "REMOVE";
-const UPDATE_ITEM = "UPDATE";
-const DROP_CART = "DROP";
-const SET_QUANTITY = "SET_QTY";
-
-// Define the reducer function
-const reducer = (state, action) => {
-    switch (action.type) {
-        case ADD_ITEM:
-            return [...state, { id: action.id, name: action.name, image: action.image, price: action.price, unitPrice: action.unitPrice || action.price / action.qty, qty: action.qty, size: action.size }];
-        
-        case REMOVE_ITEM:
-            return state.filter((_, index) => index !== action.index);
-        
-        case UPDATE_ITEM:
-            return state.map(item => 
-                item.id === action.id 
-                    ? { ...item, qty: item.qty + parseInt(action.qty, 10), price: item.price + action.price } 
-                    : item
-            );
-        
-        case DROP_CART:
-            return [];
-
-        case SET_QUANTITY:
-            return state.map((item, index) => index === action.index ? { ...item, qty: action.qty, price: item.unitPrice * action.qty } : item);
-        
-        default:
-            console.error(`Unknown action type: ${action.type}`);
-            return state;
-    }
-}
-
 // Define the CartProvider component
 export const CartProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(reducer, []);
+    const [state, dispatch] = useReducer(cartReducer, []);
     
     return (
         <CartDispatchContext.Provider value={dispatch}>
